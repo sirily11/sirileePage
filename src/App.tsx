@@ -1,26 +1,33 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import Homepage from "./components/home/Homepage";
+import "./App.css";
+import PostProvider from "./components/states/PostState";
+import { createMuiTheme } from "@material-ui/core/styles";
+import { purple, green } from "@material-ui/core/colors";
+import { ThemeProvider } from "@material-ui/styles";
+import PostDetail from "./components/post/PostDetail";
+
+const theme = createMuiTheme({
+  palette: {
+    primary: purple,
+    secondary: green
+  }
+});
 
 const App: React.FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+      <PostProvider>
+        <div>
+          <Router>
+            <Route path="/" exact component={Homepage}></Route>
+            <Route path="/post/:id" exact component={PostDetail}></Route>
+          </Router>
+        </div>
+      </PostProvider>
+    </ThemeProvider>
   );
-}
+};
 
 export default App;
