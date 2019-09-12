@@ -8,9 +8,9 @@ import HeaderBar from "./components/HeaderBar";
 export default function Homepage() {
   return (
     <Container fluid>
-      <LeftMenu></LeftMenu>
-      <HeaderBar></HeaderBar>
+      {/* <LeftMenu></LeftMenu> */}
       <TabsNav></TabsNav>
+      <HeaderBar></HeaderBar>
       <HomePost></HomePost>
     </Container>
   );

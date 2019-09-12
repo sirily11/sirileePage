@@ -3,4 +3,4 @@ export function getURL(path: string): string {
     return `${base}/${path}`
 }
 
-export const drawerWidth = 240;
+export const drawerWidth = 0;

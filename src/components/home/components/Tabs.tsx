@@ -7,7 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import { drawerWidth } from "../../utils/utils";
 import { PostContext } from "../../states/PostState";
-import { Menu } from "semantic-ui-react";
+import { Menu, Segment } from "semantic-ui-react";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -17,13 +17,14 @@ interface TabPanelProps {
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
-    flexGrow: 1,
-    [theme.breakpoints.up("sm")]: {
-      marginLeft: drawerWidth + 50
-    },
-    marginLeft: 10,
-    marginTop: 20,
-    backgroundColor: theme.palette.background.paper
+    width: "100%"
+    // flexGrow: 1,
+    // [theme.breakpoints.up("sm")]: {
+    //   marginLeft: drawerWidth + 50
+    // },
+    // marginLeft: 10,
+    // marginTop: 20,
+    // backgroundColor: theme.palette.background.paper
   }
 }));
 
@@ -37,7 +38,7 @@ export default function TabsNav() {
   }
   console.log(postContext.categories);
   return (
-    <div className={classes.root}>
+    <Segment className={classes.root}>
       <Menu secondary>
         <Menu.Item
           name="All"
@@ -52,6 +53,6 @@ export default function TabsNav() {
           />
         ))}
       </Menu>
-    </div>
+    </Segment>
   );
 }

@@ -7,6 +7,7 @@ import Skeleton from "@material-ui/lab/Skeleton";
 import axios from "axios";
 import { Grid, Container } from "semantic-ui-react";
 import PostLayout from "./PostLayout";
+import { Fade } from "@material-ui/core";
 
 type TParams = { id?: string };
 
@@ -56,16 +57,16 @@ export default function PostDetail({ match }: RouteComponentProps<TParams>) {
   });
 
   return (
-    <Container>
+    <Container fluid style={{ overflowX: "hidden", overflowY: "hidden" }}>
       <Grid>
-        {post ? (
-          <Grid.Row>
-            {" "}
-            <PostLayout post={post}></PostLayout>
-          </Grid.Row>
-        ) : (
+        <Fade in={post !== undefined} mountOnEnter>
+          <div style={{ width: "100%" }}>
+            {post && <PostLayout post={post}></PostLayout>}
+          </div>
+        </Fade>
+        <Fade in={post === undefined} unmountOnExit mountOnEnter>
           <LoadingCard></LoadingCard>
-        )}
+        </Fade>
       </Grid>
     </Container>
   );

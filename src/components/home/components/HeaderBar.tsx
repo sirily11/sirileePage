@@ -1,37 +1,36 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Grid, Icon, Button } from "semantic-ui-react";
 import Moment from "react-moment";
 import { drawerWidth } from "../../utils/utils";
 import { makeStyles, Theme } from "@material-ui/core/styles";
+import { PostContext } from "../../states/PostState";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     flexGrow: 1,
     [theme.breakpoints.up("sm")]: {
-      marginLeft: drawerWidth + 60
+      marginLeft: drawerWidth + 20
     },
     marginTop: 30,
-    width: "100%"
+    width: "100%",
+    textAlign: "left"
   }
 }));
 
 export default function HeaderBar() {
   const classes = useStyles();
+  const postContext = useContext(PostContext);
+
   return (
-    <Grid>
-      <Grid.Row className={classes.root}>
-        <Grid.Column mobile={16} computer={4}>
-          <h1 className="header">My Blog </h1>
-        </Grid.Column>
-        <Grid.Column mobile={16} computer={8}>
-          <Moment interval={1000}></Moment>
-        </Grid.Column>
-        <Grid.Column mobile={16} computer={4}>
-          <Button icon>
-            <Icon name="search"></Icon>
-          </Button>
-        </Grid.Column>
+    <div className={classes.root}>
+      <Grid.Row>
+        <h1 className="header">My Blog </h1>
       </Grid.Row>
-    </Grid>
+      <Grid.Row>
+        <h2>
+          {postContext.seletedCategory && postContext.seletedCategory.category}
+        </h2>
+      </Grid.Row>
+    </div>
   );
 }
