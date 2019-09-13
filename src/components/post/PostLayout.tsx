@@ -72,7 +72,7 @@ function PostLayout(props: LayoutProps) {
       title={props.post.title}
       imageSrc={props.post.image_url}
     >
-      <Segment style={{ padding: "1em 8em" }} vertical>
+      <Segment style={{ padding: "1em 20em" }} vertical>
         <ReactMarkdown source={props.post.content}></ReactMarkdown>
       </Segment>
     </DesktopContainer>

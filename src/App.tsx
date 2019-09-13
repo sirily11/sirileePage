@@ -19,12 +19,10 @@ const App: React.FC = () => {
   return (
     <ThemeProvider theme={theme}>
       <PostProvider>
-        <div>
-          <Router>
-            <Route path="/" exact component={Homepage}></Route>
-            <Route path="/post/:id" exact component={PostDetail}></Route>
-          </Router>
-        </div>
+        <Router>
+          <Route path="/" exact component={Homepage}></Route>
+          <Route path="/post/:id" exact component={PostDetail}></Route>
+        </Router>
       </PostProvider>
     </ThemeProvider>
   );

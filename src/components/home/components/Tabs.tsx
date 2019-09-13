@@ -36,7 +36,6 @@ export default function TabsNav() {
   function handleChange(event: React.ChangeEvent<{}>, newValue: number) {
     setValue(newValue);
   }
-  console.log(postContext.categories);
   return (
     <Segment className={classes.root}>
       <Menu secondary>

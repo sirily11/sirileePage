@@ -7,7 +7,10 @@ import HeaderBar from "./components/HeaderBar";
 
 export default function Homepage() {
   return (
-    <Container fluid>
+    <Container
+      fluid
+      style={{ overflowX: "hidden", overflowY: "auto", height: "100%" }}
+    >
       {/* <LeftMenu></LeftMenu> */}
       <TabsNav></TabsNav>
       <HeaderBar></HeaderBar>

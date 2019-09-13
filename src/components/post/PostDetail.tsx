@@ -50,11 +50,10 @@ function LoadingCard() {
 export default function PostDetail({ match }: RouteComponentProps<TParams>) {
   const [post, setPost] = useState<Post>();
   const url = getURL(`post/${match.params.id}/`);
-  axios.get(url).then(res => {
-    setTimeout(() => {
+  if (post === undefined)
+    axios.get(url).then(res => {
       setPost(res.data);
-    }, 200);
-  });
+    });
 
   return (
     <Container fluid style={{ overflowX: "hidden", overflowY: "hidden" }}>

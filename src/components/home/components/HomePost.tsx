@@ -11,7 +11,8 @@ import {
   Theme,
   createStyles,
   Divider,
-  Card
+  Card,
+  Container
 } from "@material-ui/core";
 import { PostContext } from "../../states/PostState";
 import ReactMarkdown from "react-markdown";
@@ -72,6 +73,9 @@ export default function HomePost() {
     <Grid>
       <Grid.Row className={classes.content}>
         {split(posts).map((pl, index) => {
+          if (pl.length === 0) {
+            return <Container></Container>;
+          }
           return <CardPanel posts={pl} reverse={index % 2 !== 0}></CardPanel>;
         })}
       </Grid.Row>
