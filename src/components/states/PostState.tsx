@@ -10,7 +10,7 @@ interface State {
   selectCategory(category?: Category): void;
   seletedCategory?: Category;
   nextURL?: string | null;
-  fetchNext(url: string): void;
+  fetchNext(): void;
   getPost(id: number): Post | undefined;
 }
 
@@ -20,7 +20,7 @@ const context: State = {
   posts: [],
   categories: [],
   seletedCategory: undefined,
-  fetchNext(url: string) {},
+  fetchNext() {},
   selectCategory(category: Category) {},
   getPost: (id: number) => {
     return undefined;
@@ -44,17 +44,12 @@ export default class PostProvider extends Component<Props, State> {
 
   async componentDidMount() {
     try {
-      let url = getURL("post/");
-      let response = await axios.get(url);
-      let data: FetchResult = response.data;
-
-      let urlC = getURL("category/");
-      response = await axios.get(urlC);
-      let categoryResult: CategoryResult = response.data;
+      let postResult = await this.fetchPost();
+      let categoryResult = await this.fetchCategory();
 
       this.setState({
-        posts: data.results,
-        nextURL: data.next,
+        posts: postResult.results,
+        nextURL: postResult.next === null ? undefined : postResult.next,
         categories: categoryResult.results
       });
     } catch (err) {
@@ -62,25 +57,68 @@ export default class PostProvider extends Component<Props, State> {
     }
   }
 
+  /**
+   * Fetch all post from internet
+   */
+  private fetchPost = async (): Promise<FetchResult> => {
+    let url = getURL("post/");
+    let response = await axios.get(url);
+    let data: FetchResult = response.data;
+    return data;
+  };
+
+  /**
+   * Fetch all category from internet
+   */
+  private fetchCategory = async (): Promise<CategoryResult> => {
+    let url = getURL("category/");
+    let response = await axios.get(url);
+    let categoryResult: CategoryResult = response.data;
+    return categoryResult;
+  };
+
   getPost(id: number): Post | undefined {
     return this.state.posts.find((post, index, obj) => post.id == id);
   }
 
-  selectCategory = (category?: Category) => {
+  /**
+   * Set current category to the selected one
+   * Update ui and fetch new post based on the category
+   * @param category Selected category, if select all, then this will be undefined
+   */
+  selectCategory = async (category?: Category) => {
+    // select on of the tab but not all
+    if (category) {
+      let url = getURL("post/?category=" + category.id);
+      let response = await axios.get(url);
+      let data: FetchResult = response.data;
+      this.setState({ posts: data.results });
+    } else {
+      let postResult = await this.fetchPost();
+      this.setState({ posts: postResult.results });
+    }
+
     this.setState({ seletedCategory: category });
   };
 
-  async fetchNext(url: string) {
-    try {
-      let response = await axios.get(url);
-      let data: FetchResult = response.data;
-      let posts = this.state.posts;
-      posts.concat(data.results);
-      this.setState({ posts: posts, nextURL: data.next });
-    } catch (err) {
-      console.error(err);
+  fetchNext = async () => {
+    console.log("fetching next");
+    const { nextURL } = this.state;
+    if (nextURL) {
+      try {
+        let response = await axios.get(nextURL);
+        let data: FetchResult = response.data;
+        let posts = this.state.posts;
+        posts = posts.concat(data.results);
+        this.setState({
+          posts: posts,
+          nextURL: data.next === null ? undefined : data.next
+        });
+      } catch (err) {
+        console.error(err);
+      }
     }
-  }
+  };
 
   render() {
     return (

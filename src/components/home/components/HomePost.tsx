@@ -1,24 +1,19 @@
-import React, { useContext } from "react";
-import { Button, Grid, Icon, Header } from "semantic-ui-react";
+import React, { useContext, useState } from "react";
+import { Grid, Button } from "semantic-ui-react";
 import "semantic-ui-css/semantic.min.css";
-import Moment from "react-moment";
 import { Post } from "../../models/post";
 import {
-  CardMedia,
-  CardContent,
-  Typography,
   makeStyles,
   Theme,
   createStyles,
-  Divider,
-  Card,
-  Container
+  Container,
+  CircularProgress,
+  Fade
 } from "@material-ui/core";
 import { PostContext } from "../../states/PostState";
-import ReactMarkdown from "react-markdown";
 import { drawerWidth } from "../../utils/utils";
-import randomColor from "randomcolor";
 import CardPanel from "./CardPanel";
+import InfiniteScroll from "react-infinite-scroller";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -45,30 +40,21 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function HomePost() {
   const classes = useStyles();
-  const { posts, fetchNext, getPost, seletedCategory } = useContext(
+  const { posts, fetchNext, getPost, seletedCategory, nextURL } = useContext(
     PostContext
   );
+  const [isLoading, setIsLoading] = useState(false);
 
   function split(posts: Post[]): Post[][] {
     const itemPerList = 3;
     let list: Post[][] = [];
     let i = 0;
     while (i < posts.length) {
-      list.push(
-        posts
-          .filter(
-            post =>
-              (seletedCategory &&
-                post.post_category.id === seletedCategory.id) ||
-              seletedCategory === undefined
-          )
-          .slice(i, i + itemPerList)
-      );
+      list.push(posts.slice(i, i + itemPerList));
       i += itemPerList;
     }
     return list;
   }
-
   return (
     <Grid>
       <Grid.Row className={classes.content}>
@@ -79,6 +65,21 @@ export default function HomePost() {
           return <CardPanel posts={pl} reverse={index % 2 !== 0}></CardPanel>;
         })}
       </Grid.Row>
+      <Fade in={nextURL !== undefined} mountOnEnter unmountOnExit>
+        <Grid.Row centered>
+          <Button
+            loading={isLoading}
+            primary
+            onClick={async () => {
+              setIsLoading(true);
+              await fetchNext();
+              setIsLoading(false);
+            }}
+          >
+            Load more
+          </Button>
+        </Grid.Row>
+      </Fade>
     </Grid>
   );
 }
