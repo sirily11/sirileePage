@@ -1,6 +1,6 @@
 export function getURL(path: string): string {
     var base = "http://0.0.0.0/blog"
-    var production = "http://54.152.207.25/blog"
+    var production = "https://api.sirileepage.com/blog"
     return `${production}/${path}`
 }
 
