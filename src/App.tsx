@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { HashRouter as Router, Route, Link } from "react-router-dom";
 import Homepage from "./components/home/Homepage";
 import "./App.css";
 import PostProvider from "./components/states/PostState";

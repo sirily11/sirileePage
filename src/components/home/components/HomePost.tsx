@@ -19,9 +19,9 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     content: {
       [theme.breakpoints.up("sm")]: {
-        marginLeft: drawerWidth + 10
+        marginLeft: drawerWidth + 30
       },
-      margin: 10
+      margin: 40
     },
     divider: {
       [theme.breakpoints.down("sm")]: {
@@ -65,7 +65,7 @@ export default function HomePost() {
           return <CardPanel posts={pl} reverse={index % 2 !== 0}></CardPanel>;
         })}
       </Grid.Row>
-      <Fade in={nextURL !== undefined} mountOnEnter unmountOnExit>
+      <Fade in={nextURL !== undefined} mountOnEnter unmountOnExit timeout={100}>
         <Grid.Row centered>
           <Button
             loading={isLoading}

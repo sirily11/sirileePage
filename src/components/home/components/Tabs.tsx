@@ -7,7 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import { drawerWidth } from "../../utils/utils";
 import { PostContext } from "../../states/PostState";
-import { Menu, Segment } from "semantic-ui-react";
+import { Menu, Segment, Sticky } from "semantic-ui-react";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -37,21 +37,23 @@ export default function TabsNav() {
     setValue(newValue);
   }
   return (
-    <Segment className={classes.root}>
-      <Menu secondary>
-        <Menu.Item
-          name="All"
-          active={postContext.seletedCategory === undefined}
-          onClick={() => postContext.selectCategory(undefined)}
-        />
-        {postContext.categories.map((category, index) => (
+    <Sticky>
+      <Segment className={classes.root}>
+        <Menu secondary>
           <Menu.Item
-            name={category.category}
-            active={postContext.seletedCategory === category}
-            onClick={() => postContext.selectCategory(category)}
+            name="All"
+            active={postContext.seletedCategory === undefined}
+            onClick={() => postContext.selectCategory(undefined)}
           />
-        ))}
-      </Menu>
-    </Segment>
+          {postContext.categories.map((category, index) => (
+            <Menu.Item
+              name={category.category}
+              active={postContext.seletedCategory === category}
+              onClick={() => postContext.selectCategory(category)}
+            />
+          ))}
+        </Menu>
+      </Segment>
+    </Sticky>
   );
 }

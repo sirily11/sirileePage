@@ -10,7 +10,7 @@ import {
   Collapse,
   Fade
 } from "@material-ui/core";
-import { drawerWidth } from "../../utils/utils";
+import { drawerWidth, isBrightColor } from "../../utils/utils";
 import { NavLink } from "react-router-dom";
 
 interface Props {
@@ -37,14 +37,20 @@ const useStyles = makeStyles((theme: Theme) =>
       height: 200,
       backgroundColor: "pink"
     },
-    title: {
+    titleBright: {
       position: "absolute",
       top: 30,
       fontWeight: "bold",
       color: "white",
       width: "70%"
+    },
 
-      //   textShadow: "1px 1px #000000"
+    titleDark: {
+      position: "absolute",
+      top: 30,
+      fontWeight: "bold",
+      color: "black",
+      width: "70%"
     },
     button: {
       position: "absolute",
@@ -72,65 +78,84 @@ export default function CardPanel(props: Props) {
     </NavLink>
   );
 
-  const horizentalCard = (
-    <Grid.Row>
-      <Grid.Column>
-        <Card
-          elevation={5}
-          className={classes.horizentalCard}
-          style={{
-            backgroundImage: `url(${posts[0].image_url})`
-          }}
-        >
-          <CardContent>
-            <div className={classes.title}>
-              <Grid.Row>
-                <span>{posts[0].post_category.category}</span>
-              </Grid.Row>
-              <Grid.Row>
-                <h2 style={{ color: "white" }}>{posts[0].title}</h2>
-              </Grid.Row>
-            </div>
-            {btn(posts[0].id)}
-          </CardContent>
-        </Card>
-      </Grid.Column>
-    </Grid.Row>
-  );
-
-  const verticalCards = (
-    <Grid.Row columns={2}>
-      {posts.slice(1).map((p, i) => (
-        <Grid.Column tablet={8} computer={8} mobile={16}>
+  const horizentalCard = () => {
+    const isBright =
+      posts[0].cover_color.length === 0
+        ? false
+        : isBrightColor(posts[0].cover_color[0]);
+    return (
+      <Grid.Row>
+        <Grid.Column>
           <Card
             elevation={5}
-            className={classes.verticalCard}
+            className={classes.horizentalCard}
             style={{
-              backgroundImage: `url(${p.image_url})`
+              backgroundImage: `url(${posts[0].image_url})`
             }}
           >
             <CardContent>
-              <div className={classes.title}>
+              <div
+                className={isBright ? classes.titleDark : classes.titleBright}
+              >
                 <Grid.Row>
-                  <span>{p.post_category.category}</span>
+                  <span>{posts[0].post_category.category}</span>
                 </Grid.Row>
                 <Grid.Row>
-                  <h2 style={{ color: "white" }}>{p.title}</h2>
+                  <h2 style={{ color: isBright ? "black" : "white" }}>
+                    {posts[0].title}
+                  </h2>
                 </Grid.Row>
               </div>
-              {btn(p.id)}
+              {btn(posts[0].id)}
             </CardContent>
           </Card>
         </Grid.Column>
-      ))}
+      </Grid.Row>
+    );
+  };
+
+  const verticalCards = () => (
+    <Grid.Row columns={2}>
+      {posts.slice(1).map((p, i) => {
+        const isBright =
+          p.cover_color.length === 0 ? false : isBrightColor(p.cover_color[0]);
+        console.log(p.title, isBright);
+        return (
+          <Grid.Column tablet={8} computer={8} mobile={16} key={`post-${i}`}>
+            <Card
+              elevation={5}
+              className={classes.verticalCard}
+              style={{
+                backgroundImage: `url(${p.image_url})`
+              }}
+            >
+              <CardContent>
+                <div
+                  className={isBright ? classes.titleDark : classes.titleBright}
+                >
+                  <Grid.Row>
+                    <span>{p.post_category.category}</span>
+                  </Grid.Row>
+                  <Grid.Row>
+                    <h2 style={{ color: isBright ? "black" : "white" }}>
+                      {p.title}
+                    </h2>
+                  </Grid.Row>
+                </div>
+                {btn(p.id)}
+              </CardContent>
+            </Card>
+          </Grid.Column>
+        );
+      })}
     </Grid.Row>
   );
   return (
     <Fade in={inani} mountOnEnter>
       <Grid.Column computer={8} tablet={8} mobile={16}>
         <Grid>
-          {reverse ? verticalCards : horizentalCard}
-          {reverse ? horizentalCard : verticalCards}
+          {reverse ? verticalCards() : horizentalCard()}
+          {reverse ? horizentalCard() : verticalCards()}
         </Grid>
       </Grid.Column>
     </Fade>

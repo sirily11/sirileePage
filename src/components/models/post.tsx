@@ -20,6 +20,13 @@ export interface Post {
   author: Author;
   posted_time: string;
   image_url: string;
+  cover_color: Color[]
+}
+
+export interface Color{
+  red: number;
+  green: number;
+  blue: number;
 }
 
 export interface FetchResult {
