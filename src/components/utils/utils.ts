@@ -2,7 +2,7 @@ import { Color } from '../models/post';
 
 export function getURL(path: string): string {
 
-    var base = "http://0.0.0.0/blog"
+    // var base = "http://0.0.0.0/blog"
     var production_api = "https://api.sirileepage.com/blog"
     return `${production_api}/${path}`
 }

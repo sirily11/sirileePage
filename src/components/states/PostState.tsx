@@ -78,7 +78,7 @@ export default class PostProvider extends Component<Props, State> {
   };
 
   getPost(id: number): Post | undefined {
-    return this.state.posts.find((post, index, obj) => post.id == id);
+    return this.state.posts.find((post, index, obj) => post.id === id);
   }
 
   /**

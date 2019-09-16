@@ -7,10 +7,9 @@ import {
   makeStyles,
   Theme,
   createStyles,
-  Collapse,
   Fade
 } from "@material-ui/core";
-import { drawerWidth, isBrightColor } from "../../utils/utils";
+import { isBrightColor } from "../../utils/utils";
 import { NavLink } from "react-router-dom";
 
 interface Props {

@@ -1,13 +1,5 @@
 import React, { Component } from "react";
-import {
-  Container,
-  Menu,
-  Responsive,
-  Segment,
-  Visibility,
-  Button,
-  Grid
-} from "semantic-ui-react";
+import { Container, Menu, Segment, Button, Grid } from "semantic-ui-react";
 import PostTitle from "./PostTitle";
 import { NavLink } from "react-router-dom";
 import { Post } from "../models/post";

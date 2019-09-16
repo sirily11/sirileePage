@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import { Grid, Icon, Button } from "semantic-ui-react";
-import Moment from "react-moment";
 import { drawerWidth } from "../../utils/utils";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import { PostContext } from "../../states/PostState";

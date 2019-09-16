@@ -7,13 +7,11 @@ import {
   Theme,
   createStyles,
   Container,
-  CircularProgress,
   Fade
 } from "@material-ui/core";
 import { PostContext } from "../../states/PostState";
 import { drawerWidth } from "../../utils/utils";
 import CardPanel from "./CardPanel";
-import InfiniteScroll from "react-infinite-scroller";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
