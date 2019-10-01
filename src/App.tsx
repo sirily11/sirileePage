@@ -7,6 +7,7 @@ import { createMuiTheme } from "@material-ui/core/styles";
 import { purple, green } from "@material-ui/core/colors";
 import { ThemeProvider } from "@material-ui/styles";
 import PostDetail from "./components/post/PostDetail";
+import WelcomePage from "./components/welcomepage/WelcomPage";
 
 const theme = createMuiTheme({
   palette: {
@@ -20,8 +21,9 @@ const App: React.FC = () => {
     <ThemeProvider theme={theme}>
       <PostProvider>
         <Router>
-          <Route path="/" exact component={Homepage}></Route>
-          <Route path="/post/:id" exact component={PostDetail}></Route>
+          <Route path="/" exact component={WelcomePage}></Route>
+          <Route path="/blog" exact component={Homepage}></Route>
+          <Route path="/blog/post/:id" exact component={PostDetail}></Route>
         </Router>
       </PostProvider>
     </ThemeProvider>
