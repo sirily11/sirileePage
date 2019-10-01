@@ -23,7 +23,7 @@ const App: React.FC = () => {
         <Router>
           <Route path="/" exact component={WelcomePage}></Route>
           <Route path="/blog" exact component={Homepage}></Route>
-          <Route path="/blog/post/:id" exact component={PostDetail}></Route>
+          <Route path="/post/:id" exact component={PostDetail}></Route>
         </Router>
       </PostProvider>
     </ThemeProvider>
