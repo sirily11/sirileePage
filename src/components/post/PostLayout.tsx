@@ -63,7 +63,7 @@ function DesktopContainer(props: ContainerProps) {
           style={{ marginTop: 40 }}
         >
           <Container>
-            <NavLink to="/">
+            <NavLink to="/blog">
               <Button icon="arrow left"></Button>
             </NavLink>
           </Container>
