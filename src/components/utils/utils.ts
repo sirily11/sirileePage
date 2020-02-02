@@ -3,7 +3,7 @@ import { Color } from '../models/post';
 export function getURL(path: string): string {
 
     // var base = "http://0.0.0.0/blog"
-    var production_api = "https://api.sirileepage.com/blog"
+    var production_api = "https://qbiv28lfa0.execute-api.us-east-1.amazonaws.com/dev/blog"
     return `${production_api}/${path}`
 }
 

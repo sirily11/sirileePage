@@ -8,6 +8,7 @@ import axios from "axios";
 import { Grid, Container } from "semantic-ui-react";
 import PostLayout from "./PostLayout";
 import { Fade } from "@material-ui/core";
+import "./post.css";
 
 type TParams = { id?: string };
 
