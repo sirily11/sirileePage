@@ -1,3 +1,4 @@
-p {
-  font-size: x-large;
+p,
+span {
+  font-size: medium;
 }

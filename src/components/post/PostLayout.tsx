@@ -6,6 +6,24 @@ import { Post } from "../models/post";
 import ReactMarkdown from "react-markdown";
 import { makeStyles } from "@material-ui/styles";
 import { Theme, createStyles } from "@material-ui/core";
+import { convertFromRaw, EditorState } from "draft-js";
+import Editor, { composeDecorators } from "draft-js-plugins-editor";
+
+// plugins
+import createImagePlugin from "draft-js-image-plugin";
+import createResizeablePlugin from "draft-js-resizeable-plugin";
+//@ts-ignore
+import createAlignmentPlugin from "draft-js-alignment-plugin";
+import "draft-js-alignment-plugin/lib/plugin.css";
+import "draft-js/dist/Draft.css";
+// endplugins
+const resizeablePlugin = createResizeablePlugin();
+const alignmentPlugin = createAlignmentPlugin();
+const decorator = composeDecorators(
+  alignmentPlugin.decorator,
+  resizeablePlugin.decorator
+);
+const imagePlugin = createImagePlugin({ decorator });
 
 interface ContainerProps {
   children: JSX.Element | JSX.Element[];
@@ -87,7 +105,14 @@ function PostLayout(props: LayoutProps) {
       <Segment style={{ padding: "1em 1em" }} vertical>
         <Grid centered>
           <Grid.Column computer={10} tablet={12} mobile={14}>
-            <ReactMarkdown source={props.post.content}></ReactMarkdown>
+            <Editor
+              onChange={e => {}}
+              readOnly
+              editorState={EditorState.createWithContent(
+                convertFromRaw(JSON.parse(props.post.content))
+              )}
+              plugins={[alignmentPlugin, imagePlugin, resizeablePlugin]}
+            />
           </Grid.Column>
         </Grid>
       </Segment>
