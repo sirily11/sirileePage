@@ -101,7 +101,7 @@ function PostLayout(props: LayoutProps) {
     setHeight(window.innerHeight);
   });
   return (
-    <Grid style={{ width: "100%", height: "800px" }} divided>
+    <Grid style={{ width: "100%", height: height }} divided>
       <Grid.Row>
         <Grid.Column computer={8} tablet={8} mobile={16}>
           <TitleWithCover
