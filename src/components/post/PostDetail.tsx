@@ -50,6 +50,8 @@ function LoadingCard() {
 
 export default function PostDetail({ match }: RouteComponentProps<TParams>) {
   const [post, setPost] = useState<Post>();
+
+
   const url = getURL(`post/${match.params.id}/`);
   if (post === undefined)
     axios.get(url).then(res => {
@@ -57,17 +59,20 @@ export default function PostDetail({ match }: RouteComponentProps<TParams>) {
     });
 
   return (
-    <Container fluid style={{ overflowX: "hidden", overflowY: "hidden" }}>
-      <Grid>
+    <Container
+      fluid
+      style={{ overflowX: "hidden", overflowY: "hidden", height: "100%" }}
+    >
+      <div style={{ height: "100%" }} id="container">
         <Fade in={post !== undefined} mountOnEnter>
-          <div style={{ width: "100%" }}>
+          <div style={{ width: "100%", height: "100%" }}>
             {post && <PostLayout post={post}></PostLayout>}
           </div>
         </Fade>
         <Fade in={post === undefined} unmountOnExit mountOnEnter>
           <LoadingCard></LoadingCard>
         </Fade>
-      </Grid>
+      </div>
     </Container>
   );
 }

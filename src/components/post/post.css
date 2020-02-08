@@ -1,4 +1,6 @@
 p,
 span {
   font-size: medium;
+  letter-spacing: 2px;
+  font-family: "Roboto", sans-serif;
 }

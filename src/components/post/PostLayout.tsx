@@ -1,11 +1,18 @@
-import React, { Component } from "react";
-import { Container, Menu, Segment, Button, Grid } from "semantic-ui-react";
+import React, { Component, useState } from "react";
+import {
+  Container,
+  Menu,
+  Segment,
+  Button,
+  Grid,
+  Card
+} from "semantic-ui-react";
 import PostTitle from "./PostTitle";
 import { NavLink } from "react-router-dom";
-import { Post } from "../models/post";
+import { Post, Color } from "../models/post";
 import ReactMarkdown from "react-markdown";
 import { makeStyles } from "@material-ui/styles";
-import { Theme, createStyles } from "@material-ui/core";
+import { Theme, createStyles, Paper } from "@material-ui/core";
 import { convertFromRaw, EditorState } from "draft-js";
 import Editor, { composeDecorators } from "draft-js-plugins-editor";
 
@@ -26,10 +33,10 @@ const decorator = composeDecorators(
 const imagePlugin = createImagePlugin({ decorator });
 
 interface ContainerProps {
-  children: JSX.Element | JSX.Element[];
   title: string;
   author: string;
   imageSrc?: string;
+  cover_color: Color[];
 }
 
 interface LayoutProps {
@@ -52,59 +59,69 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-function DesktopContainer(props: ContainerProps) {
-  const { children } = props;
-
+function TitleWithCover(props: ContainerProps) {
   return (
-    <div
+    <Segment
+      inverted
+      textAlign="left"
       style={{
-        width: "100%"
+        height: "100%",
+        backgroundImage: `url(${props.imageSrc})`,
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover"
       }}
+      vertical
     >
-      <Segment
-        inverted
-        textAlign="center"
-        style={{
-          minHeight: 700,
-          width: "100%",
-          padding: "1em 0em",
-          backgroundImage: `url(${props.imageSrc})`,
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "cover"
-        }}
-        vertical
+      <Menu
+        inverted={false}
+        secondary={true}
+        size="large"
+        style={{ margin: 10 }}
       >
-        <Menu
-          inverted={false}
-          secondary={true}
-          size="large"
-          style={{ marginTop: 40 }}
-        >
-          <Container>
-            <NavLink to="/blog">
-              <Button icon="arrow left"></Button>
-            </NavLink>
-          </Container>
-        </Menu>
-        <PostTitle title={props.title} author={props.author} />
-      </Segment>
-
-      {children}
-    </div>
+        <Container>
+          <NavLink to="/blog">
+            <Button icon="arrow left"></Button>
+          </NavLink>
+        </Container>
+      </Menu>
+      <PostTitle
+        title={props.title}
+        author={props.author}
+        cover_color={props.cover_color}
+      />
+    </Segment>
   );
 }
 
 function PostLayout(props: LayoutProps) {
   const classes = useStyles();
+  const [height, setHeight] = useState(window.innerHeight);
+
+  window.addEventListener("resize", ev => {
+    setHeight(window.innerHeight);
+  });
   return (
-    <DesktopContainer
-      author={props.post.author.username}
-      title={props.post.title}
-      imageSrc={props.post.image_url}
-    >
-      <Segment style={{ padding: "1em 1em" }} vertical>
-        <Grid centered>
-          <Grid.Column computer={10} tablet={12} mobile={14}>
+    <Grid style={{ width: "100%", height: "800px" }} divided>
+      <Grid.Row>
+        <Grid.Column computer={8} tablet={8} mobile={16}>
+          <TitleWithCover
+            title={props.post.title}
+            author={props.post.author.username}
+            imageSrc={props.post.image_url}
+            cover_color={props.post.cover_color}
+          />
+        </Grid.Column>
+        <Grid.Column
+          computer={8}
+          tablet={8}
+          mobile={16}
+          style={{
+            maxHeight: height,
+            overflowY: "auto",
+            padding: 30
+          }}
+        >
+          <div style={{ zIndex: 10 }}>
             <Editor
               onChange={e => {}}
               readOnly
@@ -113,10 +130,10 @@ function PostLayout(props: LayoutProps) {
               )}
               plugins={[alignmentPlugin, imagePlugin, resizeablePlugin]}
             />
-          </Grid.Column>
-        </Grid>
-      </Segment>
-    </DesktopContainer>
+          </div>
+        </Grid.Column>
+      </Grid.Row>
+    </Grid>
   );
 }
 export default PostLayout;

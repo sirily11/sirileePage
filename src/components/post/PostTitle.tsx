@@ -1,21 +1,53 @@
 import React from "react";
 import { Container, Button, Icon, Header, Image } from "semantic-ui-react";
+import { Color } from "../models/post";
+import { isBrightColor } from "../utils/utils";
+import { makeStyles, Theme, createStyles } from "@material-ui/core";
+import classes from "*.module.css";
 
 interface Props {
   title: string;
   author: string;
+  cover_color: Color[];
 }
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    titleBright: {
+      fontWeight: "bold",
+      color: "white",
+      width: "100%",
+      height: "100%"
+    },
+
+    titleDark: {
+      fontWeight: "bold",
+      color: "black",
+      width: "100%"
+    }
+  })
+);
+
 export default function PostTitle(props: Props) {
+  const isBright =
+    props.cover_color.length === 0
+      ? false
+      : isBrightColor(props.cover_color[0]);
+
+  const classes = useStyles();
   return (
-    <Container text>
+    <Container text style={{ zIndex: 10, padding: 15 }}>
       <Header
         as="h1"
-        content={props.title}
-        block
-        subheader={props.author}
+        content={
+          <div className={isBright ? classes.titleDark : classes.titleBright}>
+            {props.title}
+            <br></br>
+            {props.author}
+          </div>
+        }
         style={{
-          fontSize: "4em",
+          fontSize: "3em",
           fontWeight: "normal",
           marginBottom: 0,
           marginTop: "3em"
