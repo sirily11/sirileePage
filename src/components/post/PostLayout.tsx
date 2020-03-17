@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { Component, useState, useRef } from "react";
 import {
   Container,
   Menu,
@@ -10,11 +10,13 @@ import {
 import PostTitle from "./PostTitle";
 import { NavLink } from "react-router-dom";
 import { Post, Color } from "../models/post";
-import ReactMarkdown from "react-markdown";
+
 import { makeStyles } from "@material-ui/styles";
 import { Theme, createStyles, Paper } from "@material-ui/core";
 import { convertFromRaw, EditorState } from "draft-js";
 import Editor, { composeDecorators } from "draft-js-plugins-editor";
+
+import * as tocbot from "tocbot";
 
 // plugins
 import createImagePlugin from "draft-js-image-plugin";
@@ -23,6 +25,8 @@ import createResizeablePlugin from "draft-js-resizeable-plugin";
 import createAlignmentPlugin from "draft-js-alignment-plugin";
 import "draft-js-alignment-plugin/lib/plugin.css";
 import "draft-js/dist/Draft.css";
+import "tocbot/dist/tocbot.css";
+import { ContentElement } from "../models/tableOfContent";
 // endplugins
 const resizeablePlugin = createResizeablePlugin();
 const alignmentPlugin = createAlignmentPlugin();
@@ -37,6 +41,7 @@ interface ContainerProps {
   author: string;
   imageSrc?: string;
   cover_color: Color[];
+  tocElement: ContentElement;
 }
 
 interface LayoutProps {
@@ -89,6 +94,9 @@ function TitleWithCover(props: ContainerProps) {
         author={props.author}
         cover_color={props.cover_color}
       />
+      <div style={{ marginLeft: 40 }} id="toc">
+        {props.tocElement.render(props.cover_color)}
+      </div>
     </Segment>
   );
 }
@@ -100,11 +108,15 @@ function PostLayout(props: LayoutProps) {
   window.addEventListener("resize", ev => {
     setHeight(window.innerHeight);
   });
+
   return (
     <Grid style={{ width: "100%", height: height }} divided>
       <Grid.Row>
         <Grid.Column computer={8} tablet={8} mobile={16}>
           <TitleWithCover
+            tocElement={ContentElement.constructElementTree(
+              JSON.parse(props.post.content)
+            )}
             title={props.post.title}
             author={props.post.author.username}
             imageSrc={props.post.image_url}
