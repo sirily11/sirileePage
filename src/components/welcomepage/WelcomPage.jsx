@@ -14,7 +14,7 @@ import {
   Segment,
   Sidebar,
   Visibility,
-  Card
+  Card,
 } from "semantic-ui-react";
 import { NavLink } from "react-router-dom";
 
@@ -41,7 +41,7 @@ const HomepageHeading = ({ mobile }) => (
         fontSize: mobile ? "2em" : "4em",
         fontWeight: "normal",
         marginBottom: 0,
-        marginTop: mobile ? "1.5em" : "3em"
+        marginTop: mobile ? "1.5em" : "3em",
       }}
     />
     <Header
@@ -51,7 +51,7 @@ const HomepageHeading = ({ mobile }) => (
       style={{
         fontSize: mobile ? "1.5em" : "1.7em",
         fontWeight: "normal",
-        marginTop: mobile ? "0.5em" : "1.5em"
+        marginTop: mobile ? "0.5em" : "1.5em",
       }}
     />
     <NavLink to="/blog">
@@ -64,7 +64,7 @@ const HomepageHeading = ({ mobile }) => (
 );
 
 HomepageHeading.propTypes = {
-  mobile: PropTypes.bool
+  mobile: PropTypes.bool,
 };
 
 /* Heads up!
@@ -106,7 +106,10 @@ class DesktopContainer extends Component {
                   Home
                 </Menu.Item>
                 <NavLink to="/blog">
-                  <Menu.Item as="a">blog</Menu.Item>
+                  <Menu.Item as="a">Blog</Menu.Item>
+                </NavLink>
+                <NavLink to="/playlist">
+                  <Menu.Item as="a">Podcast</Menu.Item>
                 </NavLink>
               </Container>
             </Menu>
@@ -121,7 +124,7 @@ class DesktopContainer extends Component {
 }
 
 DesktopContainer.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
 };
 
 class MobileContainer extends Component {
@@ -154,7 +157,11 @@ class MobileContainer extends Component {
           </Menu.Item>
 
           <NavLink to="/blog">
-            <Menu.Item as="a">blog</Menu.Item>
+            <Menu.Item as="a">Blog</Menu.Item>
+          </NavLink>
+
+          <NavLink to="/playlist">
+            <Menu.Item as="a">Podcast</Menu.Item>
           </NavLink>
         </Sidebar>
 
@@ -170,14 +177,6 @@ class MobileContainer extends Component {
                 <Menu.Item onClick={this.handleToggle}>
                   <Icon name="sidebar" />
                 </Menu.Item>
-                <Menu.Item position="right">
-                  <Button as="a" inverted>
-                    Log in
-                  </Button>
-                  <Button as="a" inverted style={{ marginLeft: "0.5em" }}>
-                    Sign Up
-                  </Button>
-                </Menu.Item>
               </Menu>
             </Container>
             <HomepageHeading mobile />
@@ -191,7 +190,7 @@ class MobileContainer extends Component {
 }
 
 MobileContainer.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
 };
 
 const ResponsiveContainer = ({ children }) => (
@@ -202,7 +201,7 @@ const ResponsiveContainer = ({ children }) => (
 );
 
 ResponsiveContainer.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
 };
 
 const WelcomePage = () => (
@@ -243,55 +242,20 @@ const WelcomePage = () => (
             { header: "Game Maker", description: "A Game Making Web app" },
             {
               header: "Storage Management System desktop",
-              description: "A desktop version of storage management system"
+              description: "A desktop version of storage management system",
             },
             {
               header: "Storage Management System mobile",
               description:
-                "A Storage management system for both iOS and Android"
+                "A Storage management system for both iOS and Android",
             },
             { header: "Smart Bike", description: "A Smart Bike Mobile app" },
             {
               header: "Post Editor",
-              description: "A post editor tool for my personal website"
-            }
+              description: "A post editor tool for my personal website",
+            },
           ]}
         ></Card.Group>
-      </Container>
-    </Segment>
-    <Segment inverted vertical style={{ padding: "5em 0em" }}>
-      <Container>
-        <Grid divided inverted stackable>
-          <Grid.Row>
-            <Grid.Column width={3}>
-              <Header inverted as="h4" content="About" />
-              <List link inverted>
-                <List.Item as="a">Sitemap</List.Item>
-                <List.Item as="a">Contact Us</List.Item>
-                <List.Item as="a">Religious Ceremonies</List.Item>
-                <List.Item as="a">Gazebo Plans</List.Item>
-              </List>
-            </Grid.Column>
-            <Grid.Column width={3}>
-              <Header inverted as="h4" content="Services" />
-              <List link inverted>
-                <List.Item as="a">Banana Pre-Order</List.Item>
-                <List.Item as="a">DNA FAQ</List.Item>
-                <List.Item as="a">How To Access</List.Item>
-                <List.Item as="a">Favorite X-Men</List.Item>
-              </List>
-            </Grid.Column>
-            <Grid.Column width={7}>
-              <Header as="h4" inverted>
-                Footer Header
-              </Header>
-              <p>
-                Extra space for a call to action inside the footer that could
-                help re-engage users.
-              </p>
-            </Grid.Column>
-          </Grid.Row>
-        </Grid>
       </Container>
     </Segment>
   </ResponsiveContainer>

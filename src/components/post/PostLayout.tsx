@@ -1,18 +1,11 @@
 import React, { Component, useState, useRef } from "react";
-import {
-  Container,
-  Menu,
-  Segment,
-  Button,
-  Grid,
-  Card
-} from "semantic-ui-react";
+import { Container, Menu, Segment, Button, Card } from "semantic-ui-react";
 import PostTitle from "./PostTitle";
 import { NavLink } from "react-router-dom";
 import { Post, Color } from "../models/post";
 
 import { makeStyles } from "@material-ui/styles";
-import { Theme, createStyles, Paper } from "@material-ui/core";
+import { Theme, createStyles, Paper, Grid } from "@material-ui/core";
 import { convertFromRaw, EditorState } from "draft-js";
 import Editor, { composeDecorators } from "draft-js-plugins-editor";
 
@@ -55,12 +48,38 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundSize: "cover",
       margin: 10,
       [theme.breakpoints.up("sm")]: {
-        padding: "30px"
+        padding: "30px",
       },
       height: 200,
       padding: "10px 40px",
-      backgroundColor: "pink"
-    }
+      backgroundColor: "pink",
+    },
+    container: {
+      overflow: "hidden",
+      overflowX: "hidden",
+      height: "100%",
+      [theme.breakpoints.down("sm")]: {
+        overflow: "scroll",
+      },
+    },
+    content: {
+      overflowX: "hidden",
+      [theme.breakpoints.down("sm")]: {
+        overflow: "hidden",
+        maxHeight: "300vh",
+        padding: "20px",
+      },
+      overflowY: "scroll",
+      maxHeight: "100vh",
+      padding: "5px",
+    },
+    cover: {
+      height: "100vh",
+      // [theme.breakpoints.down("sm")]: {
+      //   height: "60%"
+      // },
+      width: "100%",
+    },
   })
 );
 
@@ -73,7 +92,8 @@ function TitleWithCover(props: ContainerProps) {
         height: "100%",
         backgroundImage: `url(${props.imageSrc})`,
         backgroundRepeat: "no-repeat",
-        backgroundSize: "cover"
+        backgroundSize: "cover",
+        backgroundPosition: "center",
       }}
       vertical
     >
@@ -105,47 +125,75 @@ function PostLayout(props: LayoutProps) {
   const classes = useStyles();
   const [height, setHeight] = useState(window.innerHeight);
 
-  window.addEventListener("resize", ev => {
+  window.addEventListener("resize", (ev) => {
     setHeight(window.innerHeight);
   });
 
   return (
-    <Grid style={{ width: "100%", height: height }} divided>
-      <Grid.Row>
-        <Grid.Column computer={8} tablet={8} mobile={16}>
-          <TitleWithCover
-            tocElement={ContentElement.constructElementTree(
-              JSON.parse(props.post.content)
+    <Grid container className={classes.container}>
+      <Grid item md={6} className={classes.cover}>
+        <TitleWithCover
+          tocElement={ContentElement.constructElementTree(
+            JSON.parse(props.post.content)
+          )}
+          title={props.post.title}
+          author={props.post.author.username}
+          imageSrc={props.post.image_url}
+          cover_color={props.post.cover_color}
+        />
+      </Grid>
+      <Grid item md={6} className={classes.content}>
+        <div style={{ zIndex: 10 }}>
+          <Editor
+            onChange={(e) => {}}
+            readOnly
+            editorState={EditorState.createWithContent(
+              convertFromRaw(JSON.parse(props.post.content))
             )}
-            title={props.post.title}
-            author={props.post.author.username}
-            imageSrc={props.post.image_url}
-            cover_color={props.post.cover_color}
+            plugins={[alignmentPlugin, imagePlugin, resizeablePlugin]}
           />
-        </Grid.Column>
-        <Grid.Column
-          computer={8}
-          tablet={8}
-          mobile={16}
-          style={{
-            maxHeight: height,
-            overflowY: "auto",
-            padding: 30
-          }}
-        >
-          <div style={{ zIndex: 10 }}>
-            <Editor
-              onChange={e => {}}
-              readOnly
-              editorState={EditorState.createWithContent(
-                convertFromRaw(JSON.parse(props.post.content))
-              )}
-              plugins={[alignmentPlugin, imagePlugin, resizeablePlugin]}
-            />
-          </div>
-        </Grid.Column>
-      </Grid.Row>
+        </div>
+      </Grid>
     </Grid>
   );
+
+  // return (
+  //   <Grid style={{ width: "100%", height: height }} divided>
+  //     <Grid.Row>
+  //       <Grid.Column computer={8} tablet={8} mobile={16}>
+  //         <TitleWithCover
+  //           tocElement={ContentElement.constructElementTree(
+  //             JSON.parse(props.post.content)
+  //           )}
+  //           title={props.post.title}
+  //           author={props.post.author.username}
+  //           imageSrc={props.post.image_url}
+  //           cover_color={props.post.cover_color}
+  //         />
+  //       </Grid.Column>
+  //       <Grid.Column
+  //         computer={8}
+  //         tablet={8}
+  //         mobile={16}
+  //         style={{
+  //           maxHeight: height,
+  //           overflowY: "auto",
+  //           padding: 30
+  //         }}
+  //       >
+  //         <div style={{ zIndex: 10 }}>
+  //           <Editor
+  //             onChange={e => {}}
+  //             readOnly
+  //             editorState={EditorState.createWithContent(
+  //               convertFromRaw(JSON.parse(props.post.content))
+  //             )}
+  //             plugins={[alignmentPlugin, imagePlugin, resizeablePlugin]}
+  //           />
+  //         </div>
+  //       </Grid.Column>
+  //     </Grid.Row>
+  //   </Grid>
+  // );
 }
 export default PostLayout;

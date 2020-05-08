@@ -1,10 +1,14 @@
 import { Color } from '../models/post';
+// const base = "http://localhost/blog"
+const podcastBase = "https://api.sirileepage.com/podcast";
+const base = "https://api.sirileepage.com/blog"
 
 export function getURL(path: string): string {
+    return `${base}/${path}`
+}
 
-    // var base = "http://0.0.0.0/blog"
-    var production_api = "https://qbiv28lfa0.execute-api.us-east-1.amazonaws.com/dev/blog"
-    return `${production_api}/${path}`
+export function getPodcastURL(path: string) {
+    return `${podcastBase}/${path}`;
 }
 
 
