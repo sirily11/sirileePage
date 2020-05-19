@@ -37,7 +37,7 @@ export default function RightContent() {
       <Grid container>
         {playlist.map((p, i) => (
           <Grid item md={4} xs={6}>
-            <Card style={{ borderRadius: 10 }}>
+            <Card style={{ borderRadius: 10, marginRight: 10 }}>
               <CardActionArea
                 onClick={() => {
                   window.location.href = "#/podcast/" + p.id;
@@ -48,7 +48,9 @@ export default function RightContent() {
                   <Typography variant="h6" style={{ color: "white" }}>
                     {p.title}
                   </Typography>
-                  <Typography>{p.description}</Typography>
+                  <Typography style={{ maxLines: 2 }} noWrap>
+                    {p.description}
+                  </Typography>
                 </CardContent>
               </CardActionArea>
             </Card>

@@ -9,6 +9,9 @@ import {
   ListItemText,
   Divider,
   ListItemIcon,
+  makeStyles,
+  Theme,
+  createStyles,
 } from "@material-ui/core";
 import { Playlist } from "../../../models/podcast";
 import { ListItem } from "@material-ui/core";
@@ -18,11 +21,24 @@ interface Props {
   podcast: Playlist;
 }
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    list: {
+      padding: 10,
+      width: 630,
+      [theme.breakpoints.down("md")]: {
+        width: 350,
+      },
+    },
+  })
+);
+
 export default function RightList(props: Props) {
   const { podcast } = props;
+  const classes = useStyles();
   const { play, currentPlaylist } = React.useContext(PodcastContext);
   return (
-    <List style={{ width: 350, padding: 10 }}>
+    <List className={classes.list}>
       <Grid container spacing={3}>
         <Grid item md={6}>
           <CardMedia

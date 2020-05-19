@@ -31,9 +31,11 @@ export default function LeftDetail() {
   const [show, setShow] = React.useState(false);
   const [currentTab, setCurrentTab] = React.useState(0);
 
-  if (currentPlaylist !== undefined && selectedVideoList === undefined) {
-    setSelectedVideoList(currentPlaylist.video_list[0]);
-  }
+  React.useEffect(() => {
+    if (currentPlaylist !== undefined) {
+      setSelectedVideoList(currentPlaylist.video_list[0]);
+    }
+  }, [currentPlaylist]);
 
   return (
     <div style={{ overflowY: "scroll", maxHeight: "95vh" }}>
@@ -71,7 +73,7 @@ export default function LeftDetail() {
                     <Select
                       labelId="demo-simple-select-label"
                       id="demo-simple-select"
-                      value={selectedVideoList?.id}
+                      value={selectedVideoList?.id ?? 0}
                       onChange={(e) => {
                         let selectedVideo = currentPlaylist.video_list.filter(
                           (v) => v.id === e.target.value

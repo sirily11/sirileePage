@@ -34,7 +34,10 @@ const useStyles = makeStyles((theme: Theme) =>
       width: "500px",
     },
     body: {
-      marginRight: 350,
+      marginRight: 630,
+      [theme.breakpoints.down("md")]: {
+        marginRight: 350,
+      },
       [theme.breakpoints.down("sm")]: {
         marginRight: 0,
       },
