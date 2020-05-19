@@ -26,7 +26,7 @@ import DescriptionIcon from "@material-ui/icons/Description";
 import AssetContainer from "./AssetContainer";
 
 export default function LeftDetail() {
-  const { currentPlaylist } = React.useContext(PodcastContext);
+  const { currentPlaylist, clear } = React.useContext(PodcastContext);
   const [selectedVideoList, setSelectedVideoList] = React.useState<VideoList>();
   const [show, setShow] = React.useState(false);
   const [currentTab, setCurrentTab] = React.useState(0);
@@ -36,6 +36,12 @@ export default function LeftDetail() {
       setSelectedVideoList(currentPlaylist.video_list[0]);
     }
   }, [currentPlaylist]);
+
+  React.useEffect(() => {
+    return () => {
+      clear();
+    };
+  }, []);
 
   return (
     <div style={{ overflowY: "scroll", maxHeight: "95vh" }}>

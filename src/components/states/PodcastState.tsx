@@ -15,6 +15,7 @@ interface State {
   fetchNext(): void;
   fetchPodcast(id: any): Promise<Playlist>;
   play(podcast: Video): void;
+  clear(): void;
 }
 
 interface Props {}
@@ -32,6 +33,7 @@ export default class PodcastProvider extends Component<Props, State> {
       fetchNext: this.fetchNext,
       fetchPodcast: this.fetchPodcast,
       play: this.play,
+      clear: this.clear,
     };
   }
 
@@ -42,6 +44,9 @@ export default class PodcastProvider extends Component<Props, State> {
       console.error(err);
     }
   }
+  clear = () => {
+    this.setState({ currentPlaylist: undefined });
+  };
 
   play = (podcast: Video) => {
     this.setState({ currentPlaylist: podcast });
