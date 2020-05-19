@@ -12,6 +12,9 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
+  Tabs,
+  Tab,
+  Slide,
 } from "@material-ui/core";
 //@ts-ignore
 import { Player, ControlBar, ClosedCaptionButton } from "video-react";
@@ -20,11 +23,13 @@ import { VideoList } from "../../../models/podcast";
 import { Divider } from "semantic-ui-react";
 
 import DescriptionIcon from "@material-ui/icons/Description";
+import AssetContainer from "./AssetContainer";
 
 export default function LeftDetail() {
   const { currentPlaylist } = React.useContext(PodcastContext);
   const [selectedVideoList, setSelectedVideoList] = React.useState<VideoList>();
   const [show, setShow] = React.useState(false);
+  const [currentTab, setCurrentTab] = React.useState(0);
 
   if (currentPlaylist !== undefined && selectedVideoList === undefined) {
     setSelectedVideoList(currentPlaylist.video_list[0]);
@@ -92,8 +97,30 @@ export default function LeftDetail() {
               </Grid>
               <Divider />
               <Grid item style={{ marginTop: 10 }}>
-                <Typography variant="h6">{currentPlaylist?.title}</Typography>
-                <Typography>{currentPlaylist?.description}</Typography>
+                <Tabs
+                  value={currentTab}
+                  onChange={(e, value) => setCurrentTab(value)}
+                >
+                  <Tab label="Content" value={0} />
+                  {currentPlaylist.asset_collections.length > 0 && (
+                    <Tab label="Assets" value={1} />
+                  )}
+                </Tabs>
+                {/** Info tab */}
+                <Fade in={currentTab === 0} mountOnEnter unmountOnExit>
+                  <div>
+                    <Typography variant="h6">
+                      {currentPlaylist?.title}
+                    </Typography>
+                    <Typography>{currentPlaylist?.description}</Typography>
+                  </div>
+                </Fade>
+                {/** Assets tab */}
+                <Fade in={currentTab === 1} mountOnEnter unmountOnExit>
+                  <AssetContainer
+                    collections={currentPlaylist.asset_collections}
+                  />
+                </Fade>
               </Grid>
             </Grid>
           )}

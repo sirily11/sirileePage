@@ -22,9 +22,7 @@ export default function RightList(props: Props) {
   const { podcast } = props;
   const { play, currentPlaylist } = React.useContext(PodcastContext);
   return (
-    <List
-      style={{ maxHeight: "95vh", overflowY: "scroll", overflowX: "hidden" }}
-    >
+    <List style={{ width: 350, padding: 10 }}>
       <Grid container spacing={3}>
         <Grid item md={6}>
           <CardMedia

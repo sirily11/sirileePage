@@ -30,6 +30,15 @@ const useStyles = makeStyles((theme: Theme) =>
       zIndex: theme.zIndex.drawer + 1,
       color: "#fff",
     },
+    drawer: {
+      width: "500px",
+    },
+    body: {
+      marginRight: 350,
+      [theme.breakpoints.down("sm")]: {
+        marginRight: 0,
+      },
+    },
   })
 );
 
@@ -51,7 +60,7 @@ export default function PodcastDetail({ match }: RouteComponentProps<TParams>) {
   return (
     <div style={{ overflow: "hidden" }}>
       <CssBaseline />
-      <Hidden smUp>
+      <Hidden mdUp>
         <AppBar position="static">
           <Toolbar>
             <IconButton onClick={() => setShowDrawer(true)}>
@@ -62,15 +71,19 @@ export default function PodcastDetail({ match }: RouteComponentProps<TParams>) {
       </Hidden>
       {podcast && (
         <Grid container style={{ padding: 10, height: "100%" }} spacing={10}>
-          <Grid item md={8} sm={12} xs={12}>
+          <Grid className={classes.body} item xs={12}>
             <LeftDetail />
           </Grid>
           <Hidden smDown implementation="js">
-            <Grid item md={4}>
+            <Drawer
+              variant="permanent"
+              className={classes.drawer}
+              anchor="right"
+            >
               <RightList podcast={podcast} />
-            </Grid>
+            </Drawer>
           </Hidden>
-          <Hidden smUp>
+          <Hidden mdUp>
             <Drawer
               style={{ width: 400 }}
               open={showDrawer}

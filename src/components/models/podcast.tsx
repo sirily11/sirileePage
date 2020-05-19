@@ -26,10 +26,23 @@ export interface Video {
   original_text: string;
   video_list: VideoList[];
   subtitle: string;
+  asset_collections: Collection[];
 }
 
 export interface VideoList {
   id: number;
   resolution: number;
   video: string;
+}
+
+export interface Collection {
+  title: string;
+  description: string;
+  assets: Asset[];
+}
+
+export interface Asset {
+  src: string;
+  cover: string | null;
+  type: string;
 }
