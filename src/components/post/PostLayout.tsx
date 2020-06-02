@@ -1,8 +1,10 @@
+/** @format */
+
 import React, { Component, useState, useRef } from "react";
 import { Container, Menu, Segment, Button, Card } from "semantic-ui-react";
 import PostTitle from "./PostTitle";
 import { NavLink } from "react-router-dom";
-import { Post, Color } from "../models/post";
+import { Post, Color, Category } from "../models/post";
 
 import { makeStyles } from "@material-ui/styles";
 import { Theme, createStyles, Paper, Grid } from "@material-ui/core";
@@ -35,6 +37,8 @@ interface ContainerProps {
   imageSrc?: string;
   cover_color: Color[];
   tocElement: ContentElement;
+  posted_time: string;
+  category: Category;
 }
 
 interface LayoutProps {
@@ -113,6 +117,8 @@ function TitleWithCover(props: ContainerProps) {
         title={props.title}
         author={props.author}
         cover_color={props.cover_color}
+        posted_time={props.posted_time}
+        category={props.category}
       />
       <div style={{ marginLeft: 40 }} id="toc">
         {props.tocElement.render(props.cover_color)}
@@ -133,6 +139,7 @@ function PostLayout(props: LayoutProps) {
     <Grid container className={classes.container}>
       <Grid item md={6} className={classes.cover}>
         <TitleWithCover
+          category={props.post.post_category}
           tocElement={ContentElement.constructElementTree(
             JSON.parse(props.post.content)
           )}
@@ -140,6 +147,7 @@ function PostLayout(props: LayoutProps) {
           author={props.post.author.username}
           imageSrc={props.post.image_url}
           cover_color={props.post.cover_color}
+          posted_time={props.post.posted_time}
         />
       </Grid>
       <Grid item md={6} className={classes.content}>
