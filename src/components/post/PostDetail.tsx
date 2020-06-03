@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { useState } from "react";
 import { RouteComponentProps } from "react-router-dom";
 import { getURL } from "../utils/utils";
@@ -9,6 +11,7 @@ import { Grid, Container } from "semantic-ui-react";
 import PostLayout from "./PostLayout";
 import { Fade } from "@material-ui/core";
 import "./post.css";
+import "draft-js/dist/Draft.css";
 
 type TParams = { id?: string };
 
@@ -17,7 +20,7 @@ function LoadingCard() {
     <Grid style={{ marginTop: 20, width: "100%" }}>
       <Grid.Row>
         <Grid.Column width={6}>
-          {Array.from({ length: 5 }, (v, k) => k + 1).map(i => (
+          {Array.from({ length: 5 }, (v, k) => k + 1).map((i) => (
             <Skeleton
               variant="rect"
               height={10}
@@ -35,7 +38,7 @@ function LoadingCard() {
         </Grid.Column>
       </Grid.Row>
       <Grid.Row>
-        {Array.from({ length: 20 }, (v, k) => k + 1).map(i => (
+        {Array.from({ length: 20 }, (v, k) => k + 1).map((i) => (
           <Skeleton
             variant="rect"
             height={10}
@@ -53,7 +56,7 @@ export default function PostDetail({ match }: RouteComponentProps<TParams>) {
 
   const url = getURL(`post/${match.params.id}/`);
   if (post === undefined)
-    axios.get(url).then(res => {
+    axios.get(url).then((res) => {
       setPost(res.data);
     });
 

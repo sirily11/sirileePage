@@ -41,17 +41,18 @@ export default function PostTitle(props: Props) {
 
   const classes = useStyles();
   return (
-    <Container text style={{ zIndex: 10, padding: 15 }}>
+    <Container style={{ zIndex: 10, padding: 15 }}>
       <Header
         as="div"
         content={
-          <div className={isBright ? classes.titleDark : classes.titleBright}>
-            {props.title}
-            <br></br>
-            <h2 className={isBright ? classes.titleDark : classes.titleBright}>
-              {props.author} | {props.category.category}
-            </h2>
-            <p>{moment(props.posted_time).format("YYYY-MM-DD")}</p>
+          <div>
+            <div className={classes.titleBright} id="post-title">
+              {props.title}
+            </div>
+            <p id="post-detail" className={classes.titleDark}>
+              {props.author} | {props.category.category} |
+              {moment(props.posted_time).format("YYYY-MM-DD")}
+            </p>
           </div>
         }
         style={{

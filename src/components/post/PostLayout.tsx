@@ -98,6 +98,7 @@ function TitleWithCover(props: ContainerProps) {
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
         backgroundPosition: "center",
+        display: "block",
       }}
       vertical
     >
@@ -153,6 +154,14 @@ function PostLayout(props: LayoutProps) {
       <Grid item md={6} className={classes.content}>
         <div style={{ zIndex: 10 }}>
           <Editor
+            blockStyleFn={(block) => {
+              let type = block.getType();
+              console.log(type);
+              if (type === "unstyled") {
+                return "text";
+              }
+              return "";
+            }}
             onChange={(e) => {}}
             readOnly
             editorState={EditorState.createWithContent(
@@ -164,44 +173,5 @@ function PostLayout(props: LayoutProps) {
       </Grid>
     </Grid>
   );
-
-  // return (
-  //   <Grid style={{ width: "100%", height: height }} divided>
-  //     <Grid.Row>
-  //       <Grid.Column computer={8} tablet={8} mobile={16}>
-  //         <TitleWithCover
-  //           tocElement={ContentElement.constructElementTree(
-  //             JSON.parse(props.post.content)
-  //           )}
-  //           title={props.post.title}
-  //           author={props.post.author.username}
-  //           imageSrc={props.post.image_url}
-  //           cover_color={props.post.cover_color}
-  //         />
-  //       </Grid.Column>
-  //       <Grid.Column
-  //         computer={8}
-  //         tablet={8}
-  //         mobile={16}
-  //         style={{
-  //           maxHeight: height,
-  //           overflowY: "auto",
-  //           padding: 30
-  //         }}
-  //       >
-  //         <div style={{ zIndex: 10 }}>
-  //           <Editor
-  //             onChange={e => {}}
-  //             readOnly
-  //             editorState={EditorState.createWithContent(
-  //               convertFromRaw(JSON.parse(props.post.content))
-  //             )}
-  //             plugins={[alignmentPlugin, imagePlugin, resizeablePlugin]}
-  //           />
-  //         </div>
-  //       </Grid.Column>
-  //     </Grid.Row>
-  //   </Grid>
-  // );
 }
 export default PostLayout;
