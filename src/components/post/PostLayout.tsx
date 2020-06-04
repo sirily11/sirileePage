@@ -134,7 +134,7 @@ function TitleWithCover(props: ContainerProps) {
         style={{ margin: 10 }}
       >
         <Container>
-          <NavLink to="/blog">
+          <NavLink to={`/blog/${props.category.id}`}>
             <Button icon="arrow left"></Button>
           </NavLink>
         </Container>
@@ -181,7 +181,6 @@ function PostLayout(props: LayoutProps) {
             blockStyleFn={(block) => {
               let type = block.getType();
               let entity = block.getEntityAt(0);
-              console.log("entity", entity);
               if (type === "unstyled") {
                 return "text";
               }

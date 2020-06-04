@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { useState } from "react";
 import { Post } from "../../models/post";
 import { Grid, Button } from "semantic-ui-react";
@@ -7,7 +9,7 @@ import {
   makeStyles,
   Theme,
   createStyles,
-  Fade
+  Fade,
 } from "@material-ui/core";
 import { isBrightColor } from "../../utils/utils";
 import { NavLink } from "react-router-dom";
@@ -24,24 +26,24 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundSize: "cover",
       margin: 10,
       height: 200,
-      backgroundColor: "pink"
+      backgroundColor: "pink",
     },
     verticalCard: {
       backgroundRepeat: "no-repeat",
       backgroundSize: "cover",
       margin: 10,
       [theme.breakpoints.down("sm")]: {
-        height: 300
+        height: 300,
       },
       height: 200,
-      backgroundColor: "pink"
+      backgroundColor: "pink",
     },
     titleBright: {
       position: "absolute",
       top: 30,
       fontWeight: "bold",
       color: "white",
-      width: "70%"
+      width: "70%",
     },
 
     titleDark: {
@@ -49,12 +51,12 @@ const useStyles = makeStyles((theme: Theme) =>
       top: 30,
       fontWeight: "bold",
       color: "black",
-      width: "70%"
+      width: "70%",
     },
     button: {
       position: "absolute",
-      bottom: 40
-    }
+      bottom: 40,
+    },
   })
 );
 
@@ -89,7 +91,7 @@ export default function CardPanel(props: Props) {
             elevation={5}
             className={classes.horizentalCard}
             style={{
-              backgroundImage: `url(${posts[0].image_url})`
+              backgroundImage: `url(${posts[0].image_url})`,
             }}
           >
             <CardContent>
@@ -118,14 +120,13 @@ export default function CardPanel(props: Props) {
       {posts.slice(1).map((p, i) => {
         const isBright =
           p.cover_color.length === 0 ? false : isBrightColor(p.cover_color[0]);
-        console.log(p.title, isBright);
         return (
           <Grid.Column tablet={8} computer={8} mobile={16} key={`post-${i}`}>
             <Card
               elevation={5}
               className={classes.verticalCard}
               style={{
-                backgroundImage: `url(${p.image_url})`
+                backgroundImage: `url(${p.image_url})`,
               }}
             >
               <CardContent>

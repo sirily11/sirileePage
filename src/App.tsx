@@ -1,3 +1,5 @@
+/** @format */
+
 import React from "react";
 import { HashRouter as Router, Route, Link } from "react-router-dom";
 import Homepage from "./components/home/Homepage";
@@ -36,7 +38,7 @@ const App: React.FC = () => {
           <Router>
             <CssBaseline />
             <Route path="/" exact component={WelcomePage}></Route>
-            <Route path="/blog" exact component={Homepage}></Route>
+            <Route path="/blog/:id?" exact component={Homepage}></Route>
             <Route path="/post/:id" exact component={PostDetail}></Route>
           </Router>
         </PostProvider>
