@@ -8,28 +8,49 @@ import { Post, Color, Category } from "../models/post";
 
 import { makeStyles } from "@material-ui/styles";
 import { Theme, createStyles, Paper, Grid } from "@material-ui/core";
-import { convertFromRaw, EditorState } from "draft-js";
+import { convertFromRaw, EditorState, CompositeDecorator } from "draft-js";
 import Editor, { composeDecorators } from "draft-js-plugins-editor";
-
-import * as tocbot from "tocbot";
-
-// plugins
+/// plugins
+import createInlineToolbarPlugin from "draft-js-inline-toolbar-plugin";
+//@ts-ignore
+import createSideToolbarPlugin from "draft-js-side-toolbar-plugin";
 import createImagePlugin from "draft-js-image-plugin";
-import createResizeablePlugin from "draft-js-resizeable-plugin";
+import createBlockDndPlugin from "draft-js-drag-n-drop-plugin";
+import createFocusPlugin from "draft-js-focus-plugin";
 //@ts-ignore
 import createAlignmentPlugin from "draft-js-alignment-plugin";
-import "draft-js-alignment-plugin/lib/plugin.css";
+import createResizeablePlugin from "draft-js-resizeable-plugin";
+import createLinkPlugin from "draft-js-anchor-plugin";
+
+//@ts-ignore
 import "draft-js/dist/Draft.css";
-import "tocbot/dist/tocbot.css";
+import "draft-js-inline-toolbar-plugin/lib/plugin.css";
+import "draft-js-side-toolbar-plugin/lib/plugin.css";
+import "draft-js-alignment-plugin/lib/plugin.css";
+import "draft-js-linkify-plugin/lib/plugin.css";
+
 import { ContentElement } from "../models/tableOfContent";
+import { findLinkEntities, Link } from "./plugins/linkPlugins";
 // endplugins
+
+const linkPlugin = createLinkPlugin({});
 const resizeablePlugin = createResizeablePlugin();
+const inlineToolbarPlugin = createInlineToolbarPlugin();
 const alignmentPlugin = createAlignmentPlugin();
+const sideToolbarPlugin = createSideToolbarPlugin({
+  position: "right",
+});
+const focusPlugin = createFocusPlugin();
+const blockDndPlugin = createBlockDndPlugin();
 const decorator = composeDecorators(
+  focusPlugin.decorator,
+  blockDndPlugin.decorator,
   alignmentPlugin.decorator,
   resizeablePlugin.decorator
 );
 const imagePlugin = createImagePlugin({ decorator });
+
+const { AlignmentTool } = alignmentPlugin;
 
 interface ContainerProps {
   title: string;
@@ -79,13 +100,17 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     cover: {
       height: "100vh",
-      // [theme.breakpoints.down("sm")]: {
-      //   height: "60%"
-      // },
       width: "100%",
     },
   })
 );
+
+const linkDecorator = new CompositeDecorator([
+  {
+    strategy: findLinkEntities,
+    component: Link,
+  },
+]);
 
 function TitleWithCover(props: ContainerProps) {
   return (
@@ -135,7 +160,6 @@ function PostLayout(props: LayoutProps) {
   window.addEventListener("resize", (ev) => {
     setHeight(window.innerHeight);
   });
-
   return (
     <Grid container className={classes.container}>
       <Grid item md={6} className={classes.cover}>
@@ -156,7 +180,8 @@ function PostLayout(props: LayoutProps) {
           <Editor
             blockStyleFn={(block) => {
               let type = block.getType();
-              console.log(type);
+              let entity = block.getEntityAt(0);
+              console.log("entity", entity);
               if (type === "unstyled") {
                 return "text";
               }
@@ -165,10 +190,22 @@ function PostLayout(props: LayoutProps) {
             onChange={(e) => {}}
             readOnly
             editorState={EditorState.createWithContent(
-              convertFromRaw(JSON.parse(props.post.content))
+              convertFromRaw(JSON.parse(props.post.content)),
+              linkDecorator
             )}
-            plugins={[alignmentPlugin, imagePlugin, resizeablePlugin]}
-          />
+            plugins={[
+              inlineToolbarPlugin,
+              sideToolbarPlugin,
+              imagePlugin,
+              blockDndPlugin,
+              focusPlugin,
+              alignmentPlugin,
+              resizeablePlugin,
+              linkPlugin,
+            ]}
+          >
+            <AlignmentTool />
+          </Editor>
         </div>
       </Grid>
     </Grid>
