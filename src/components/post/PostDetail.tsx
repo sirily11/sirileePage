@@ -54,16 +54,20 @@ function LoadingCard() {
 export default function PostDetail({ match }: RouteComponentProps<TParams>) {
   const [post, setPost] = useState<Post>();
 
-  const url = getURL(`post/${match.params.id}/`);
-  if (post === undefined)
+  React.useEffect(() => {
+    const url = getURL(`post/${match.params.id}/`);
     axios.get(url).then((res) => {
       setPost(res.data);
+      document.title = res.data.title;
     });
+  }, []);
 
   return (
     <div style={{ height: "100%" }} id="container">
       <Fade in={post !== undefined} mountOnEnter>
         <div style={{ width: "100%", height: "100%" }}>
+          <meta property="og:title" content={post?.title} />
+          <meta property="og:image" content={post?.image_url} />
           {post && <PostLayout post={post}></PostLayout>}
         </div>
       </Fade>
