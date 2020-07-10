@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { Component } from "react";
 import axios from "axios";
 import { Post, FetchResult, Category } from "../models/post";
@@ -5,6 +7,7 @@ import { getURL } from "../utils/utils";
 import { CategoryResult } from "../models/category";
 
 interface State {
+  isLoading: boolean;
   posts: Post[];
   categories: Category[];
   selectCategory(category?: Category): void;
@@ -16,16 +19,8 @@ interface State {
 
 interface Props {}
 
-const context: State = {
-  posts: [],
-  categories: [],
-  seletedCategory: undefined,
-  fetchNext() {},
-  selectCategory(category: Category) {},
-  getPost: (id: number) => {
-    return undefined;
-  }
-};
+//@ts-ignore
+const context: State = {};
 
 export const PostContext = React.createContext(context);
 
@@ -33,12 +28,13 @@ export default class PostProvider extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
+      isLoading: false,
       posts: [],
       seletedCategory: undefined,
       categories: [],
       fetchNext: this.fetchNext,
       getPost: this.getPost,
-      selectCategory: this.selectCategory
+      selectCategory: this.selectCategory,
     };
   }
 
@@ -50,7 +46,7 @@ export default class PostProvider extends Component<Props, State> {
       this.setState({
         posts: postResult.results,
         nextURL: postResult.next === null ? undefined : postResult.next,
-        categories: categoryResult.results
+        categories: categoryResult.results,
       });
     } catch (err) {
       console.error(err);
@@ -61,20 +57,36 @@ export default class PostProvider extends Component<Props, State> {
    * Fetch all post from internet
    */
   private fetchPost = async (): Promise<FetchResult> => {
-    let url = getURL("post/");
-    let response = await axios.get(url);
-    let data: FetchResult = response.data;
-    return data;
+    try {
+      this.setState({ isLoading: true });
+      let url = getURL("post/");
+      let response = await axios.get(url);
+      this.setState({ isLoading: false });
+      let data: FetchResult = response.data;
+      return data;
+    } catch (err) {
+      window.alert("Error: " + err);
+      return { count: 0, results: [], next: null, previous: null };
+    }
   };
 
   /**
    * Fetch all category from internet
    */
   private fetchCategory = async (): Promise<CategoryResult> => {
-    let url = getURL("category/");
-    let response = await axios.get(url);
-    let categoryResult: CategoryResult = response.data;
-    return categoryResult;
+    try {
+      this.setState({ isLoading: true });
+      let url = getURL("category/");
+      let response = await axios.get(url);
+      let categoryResult: CategoryResult = response.data;
+      this.setState({ isLoading: false });
+      return categoryResult;
+    } catch (err) {
+      this.setState({ isLoading: false });
+      window.alert("Error: " + err);
+
+      return { count: 0, results: [] };
+    }
   };
 
   getPost(id: number): Post | undefined {
@@ -87,18 +99,25 @@ export default class PostProvider extends Component<Props, State> {
    * @param category Selected category, if select all, then this will be undefined
    */
   selectCategory = async (category?: Category) => {
-    // select on of the tab but not all
-    if (category) {
-      let url = getURL("post/?category=" + category.id);
-      let response = await axios.get(url);
-      let data: FetchResult = response.data;
-      this.setState({ posts: data.results });
-    } else {
-      let postResult = await this.fetchPost();
-      this.setState({ posts: postResult.results });
-    }
+    this.setState({ isLoading: true });
+    try {
+      // select on of the tab but not all
+      if (category) {
+        let url = getURL("post/?category=" + category.id);
+        let response = await axios.get(url);
+        let data: FetchResult = response.data;
+        this.setState({ posts: data.results });
+      } else {
+        let postResult = await this.fetchPost();
+        this.setState({ posts: postResult.results });
+      }
 
-    this.setState({ seletedCategory: category });
+      this.setState({ seletedCategory: category });
+    } catch (err) {
+      window.alert("Error: " + err);
+    } finally {
+      this.setState({ isLoading: false });
+    }
   };
 
   fetchNext = async () => {
@@ -112,7 +131,7 @@ export default class PostProvider extends Component<Props, State> {
         posts = posts.concat(data.results);
         this.setState({
           posts: posts,
-          nextURL: data.next === null ? undefined : data.next
+          nextURL: data.next === null ? undefined : data.next,
         });
       } catch (err) {
         console.error(err);

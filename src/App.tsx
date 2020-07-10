@@ -6,7 +6,7 @@ import Homepage from "./components/home/Homepage";
 import "./App.css";
 import PostProvider from "./components/states/PostState";
 import { createMuiTheme } from "@material-ui/core/styles";
-import { purple, green, grey } from "@material-ui/core/colors";
+import { purple, green, grey, blue } from "@material-ui/core/colors";
 import { ThemeProvider } from "@material-ui/styles";
 import PostDetail from "./components/post/PostDetail";
 import WelcomePage from "./components/welcomepage/WelcomPage";
@@ -19,7 +19,7 @@ const theme = createMuiTheme({
   palette: {
     type: "light",
     primary: purple,
-    secondary: green,
+    secondary: blue,
   },
 });
 

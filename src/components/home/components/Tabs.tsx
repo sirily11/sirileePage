@@ -4,6 +4,7 @@ import React, { useContext } from "react";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import { PostContext } from "../../states/PostState";
 import { Menu, Segment, Sticky } from "semantic-ui-react";
+import { AppBar, Tabs, Tab, Paper } from "@material-ui/core";
 
 interface TabPanelProps {
   category_id?: number;
@@ -36,7 +37,37 @@ export default function TabsNav(props: TabPanelProps) {
 
   return (
     <Sticky>
-      <Segment className={classes.root}>
+      <Paper style={{ padding: 10 }}>
+        <Tabs
+          indicatorColor={"secondary"}
+          value={postContext.seletedCategory?.id ?? -1}
+          variant="scrollable"
+          onChange={(e, newValue) => {
+            console.log(newValue);
+            if (newValue < 0) {
+              postContext.selectCategory(undefined);
+              window.location.href = "#/blog/";
+            } else {
+              window.location.href = "#/blog/" + newValue;
+            }
+          }}
+        >
+          <Tab label={"All"} value={-1} />
+          {postContext.categories.map((category, index) => (
+            <Tab
+              key={`category-${index}`}
+              label={category.category}
+              value={category.id}
+            />
+          ))}
+        </Tabs>
+      </Paper>
+    </Sticky>
+  );
+}
+
+/**
+ * <Segment className={classes.root}>
         <Menu secondary>
           <Menu.Item
             name="All"
@@ -57,6 +88,5 @@ export default function TabsNav(props: TabPanelProps) {
           ))}
         </Menu>
       </Segment>
-    </Sticky>
-  );
-}
+ * 
+ */

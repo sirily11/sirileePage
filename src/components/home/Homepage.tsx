@@ -8,6 +8,23 @@ import HeaderBar from "./components/HeaderBar";
 import Fab from "@material-ui/core/Fab";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import { NavLink, RouteComponentProps } from "react-router-dom";
+import { PostContext } from "../states/PostState";
+import {
+  makeStyles,
+  Theme,
+  createStyles,
+  Backdrop,
+  CircularProgress,
+} from "@material-ui/core";
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    backdrop: {
+      zIndex: theme.zIndex.drawer + 1,
+      color: "#fff",
+    },
+  })
+);
 
 type TParams = { id?: string };
 
@@ -16,13 +33,16 @@ export default function Homepage({ match }: RouteComponentProps<TParams>) {
     document.title = "Blog";
   }, []);
 
+  const { isLoading } = React.useContext(PostContext);
+  const classes = useStyles();
+
   return (
     <div>
+      <TabsNav
+        category_id={match.params.id ? parseInt(match.params.id) : undefined}
+      />
       <Container fluid style={{ overflow: "hidden", height: "100%" }}>
         {/* <LeftMenu></LeftMenu> */}
-        <TabsNav
-          category_id={match.params.id ? parseInt(match.params.id) : undefined}
-        ></TabsNav>
         <HeaderBar></HeaderBar>
         <HomePost></HomePost>
       </Container>
@@ -35,6 +55,9 @@ export default function Homepage({ match }: RouteComponentProps<TParams>) {
           Back
         </Fab>
       </NavLink>
+      <Backdrop className={classes.backdrop} open={isLoading}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </div>
   );
 }
