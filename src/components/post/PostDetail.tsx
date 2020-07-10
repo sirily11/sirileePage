@@ -56,10 +56,13 @@ export default function PostDetail({ match }: RouteComponentProps<TParams>) {
 
   React.useEffect(() => {
     const url = getURL(`post/${match.params.id}/`);
-    axios.get(url).then((res) => {
-      setPost(res.data);
-      document.title = res.data.title;
-    });
+    axios
+      .get(url)
+      .then((res) => {
+        setPost(res.data);
+        document.title = res.data.title;
+      })
+      .catch((err) => alert(`Error: ${err}`));
   }, []);
 
   return (

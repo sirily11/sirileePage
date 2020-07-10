@@ -157,9 +157,12 @@ function PostLayout(props: LayoutProps) {
   const classes = useStyles();
   const [height, setHeight] = useState(window.innerHeight);
 
-  window.addEventListener("resize", (ev) => {
-    setHeight(window.innerHeight);
-  });
+  React.useEffect(() => {
+    window.addEventListener("resize", (ev) => {
+      setHeight(window.innerHeight);
+    });
+  }, []);
+
   return (
     <Grid container className={classes.container}>
       <Grid item md={6} className={classes.cover}>
@@ -180,7 +183,6 @@ function PostLayout(props: LayoutProps) {
           <Editor
             blockStyleFn={(block) => {
               let type = block.getType();
-              let entity = block.getEntityAt(0);
               if (type === "unstyled") {
                 return "text";
               }

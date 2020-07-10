@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { Component } from "react";
 import axios from "axios";
 import { Post, FetchResult, Category } from "../models/post";
@@ -12,6 +14,7 @@ interface State {
   currentPlaylist?: Video;
   nextURL?: string | null;
   isLoading: boolean;
+  fetchPlaylist(): Promise<void>;
   fetchNext(): void;
   fetchPodcast(id: any): Promise<Playlist>;
   play(podcast: Video): void;
@@ -34,16 +37,10 @@ export default class PodcastProvider extends Component<Props, State> {
       fetchPodcast: this.fetchPodcast,
       play: this.play,
       clear: this.clear,
+      fetchPlaylist: this.fetchPlaylist,
     };
   }
 
-  async componentDidMount() {
-    try {
-      await this.fetchPlaylist();
-    } catch (err) {
-      console.error(err);
-    }
-  }
   clear = () => {
     this.setState({ currentPlaylist: undefined });
   };
