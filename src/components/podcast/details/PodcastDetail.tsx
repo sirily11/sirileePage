@@ -1,3 +1,5 @@
+/** @format */
+
 import React from "react";
 import { RouteComponentProps } from "react-router-dom";
 import { Playlist } from "../../models/podcast";
@@ -19,6 +21,7 @@ import {
 import Backdrop from "@material-ui/core/Backdrop";
 import LeftDetail from "./components/LeftDetail";
 import RightList from "./components/RightList";
+import { Helmet } from "react-helmet";
 import MenuIcon from "@material-ui/icons/Menu";
 
 interface TParams {
@@ -49,19 +52,24 @@ export default function PodcastDetail({ match }: RouteComponentProps<TParams>) {
   const classes = useStyles();
   const [podcast, setPodcast] = React.useState<Playlist>();
   const [showDrawer, setShowDrawer] = React.useState(false);
-  const { fetchPodcast } = React.useContext(PodcastContext);
+  const { fetchPodcast,  } = React.useContext(PodcastContext);
 
-  if (podcast === undefined) {
+  React.useEffect(() => {
     let id = match.params.id;
     fetchPodcast(id).then((r) => {
-      setTimeout(() => {
-        setPodcast(r);
-      }, 400);
+      setPodcast(r);
     });
-  }
+
+  }, []);
 
   return (
     <div style={{ overflow: "hidden" }}>
+      <Helmet>
+        <link rel="icon" href={podcast?.cover ?? ""} />
+        <title>{podcast?.title ?? "Podcast"}</title>
+        <meta property="og:title" content={podcast?.title} />
+        <meta property="og:image" content={podcast?.cover ?? ""} />
+      </Helmet>
       <CssBaseline />
       <Hidden mdUp>
         <AppBar position="static">
