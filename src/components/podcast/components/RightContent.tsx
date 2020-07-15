@@ -35,11 +35,24 @@ export default function RightContent() {
       <Typography variant="h3" style={{ color: "white" }}>
         Podcast
       </Typography>
-      <Divider style={{ width: "100%", marginTop: 20, marginBottom: 20 }} />
+      <Divider
+        style={{
+          width: "100%",
+          marginTop: 20,
+          marginBottom: 20,
+        }}
+      />
       <Grid container>
         {playlist.map((p, i) => (
-          <Grid item md={4} xs={6}>
-            <Card style={{ borderRadius: 10, marginRight: 10 }}>
+          <Grid item md={4} sm={6} xs={12}>
+            <Card
+              style={{
+                borderRadius: 10,
+                marginBottom: 20,
+                marginRight: 10,
+                marginLeft: 10,
+              }}
+            >
               <CardActionArea
                 onClick={() => {
                   window.location.href = "#/podcast/" + p.id;
