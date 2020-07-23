@@ -91,7 +91,7 @@ const useStyles = makeStyles((theme: Theme) =>
       overflowX: "hidden",
       [theme.breakpoints.down("sm")]: {
         overflow: "hidden",
-        maxHeight: "300vh",
+        maxHeight: "100%",
         padding: "20px",
       },
       overflowY: "scroll",

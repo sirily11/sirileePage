@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { RouteComponentProps } from "react-router-dom";
 import { getURL } from "../utils/utils";
 import { Post } from "../models/post";
-
+import { Helmet } from "react-helmet";
 import Skeleton from "@material-ui/lab/Skeleton";
 import axios from "axios";
 import { Grid, Container } from "semantic-ui-react";
@@ -67,10 +67,12 @@ export default function PostDetail({ match }: RouteComponentProps<TParams>) {
 
   return (
     <div style={{ height: "100%" }} id="container">
+      <Helmet>
+        <meta property="og:title" content={post?.title} />
+        <meta property="og:image" content={post?.image_url} />
+      </Helmet>
       <Fade in={post !== undefined} mountOnEnter>
         <div style={{ width: "100%", height: "100%" }}>
-          <meta property="og:title" content={post?.title} />
-          <meta property="og:image" content={post?.image_url} />
           {post && <PostLayout post={post}></PostLayout>}
         </div>
       </Fade>
