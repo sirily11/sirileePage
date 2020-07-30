@@ -31,6 +31,7 @@ import "draft-js-linkify-plugin/lib/plugin.css";
 
 import { ContentElement } from "../models/tableOfContent";
 import { findLinkEntities, Link } from "./plugins/linkPlugins";
+import { findImageEntities, ImageComponent } from "./plugins/imagePlugins";
 // endplugins
 
 const linkPlugin = createLinkPlugin({});
@@ -73,10 +74,10 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundSize: "cover",
       margin: 10,
       [theme.breakpoints.up("sm")]: {
-        padding: "30px",
+        padding: "0px",
       },
       height: 200,
-      padding: "10px 40px",
+      padding: 0,
       backgroundColor: "pink",
     },
     container: {
@@ -92,7 +93,7 @@ const useStyles = makeStyles((theme: Theme) =>
       [theme.breakpoints.down("sm")]: {
         overflow: "hidden",
         maxHeight: "100%",
-        padding: "20px",
+        padding: "5px",
       },
       overflowY: "scroll",
       maxHeight: "100vh",
@@ -109,6 +110,10 @@ const linkDecorator = new CompositeDecorator([
   {
     strategy: findLinkEntities,
     component: Link,
+  },
+  {
+    strategy: findImageEntities,
+    component: ImageComponent,
   },
 ]);
 
@@ -197,10 +202,8 @@ function PostLayout(props: LayoutProps) {
             plugins={[
               inlineToolbarPlugin,
               sideToolbarPlugin,
-              imagePlugin,
               blockDndPlugin,
               focusPlugin,
-              alignmentPlugin,
               resizeablePlugin,
               linkPlugin,
             ]}
