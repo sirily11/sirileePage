@@ -32,6 +32,7 @@ import "draft-js-linkify-plugin/lib/plugin.css";
 import { ContentElement } from "../models/tableOfContent";
 import { findLinkEntities, Link } from "./plugins/linkPlugins";
 import { findImageEntities, ImageComponent } from "./plugins/imagePlugins";
+import { findAudioEntities, AudioComponent } from "./plugins/audioPlugins";
 // endplugins
 
 const linkPlugin = createLinkPlugin({});
@@ -114,6 +115,10 @@ const linkDecorator = new CompositeDecorator([
   {
     strategy: findImageEntities,
     component: ImageComponent,
+  },
+  {
+    strategy: findAudioEntities,
+    component: AudioComponent,
   },
 ]);
 
