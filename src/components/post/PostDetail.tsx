@@ -68,6 +68,7 @@ export default function PostDetail({ match }: RouteComponentProps<TParams>) {
   return (
     <div style={{ height: "100%" }} id="container">
       <Helmet>
+        <link property="apple-touch-icon" href={post?.image_url} />
         <meta property="og:title" content={post?.title} />
         <meta property="og:image" content={post?.image_url} />
       </Helmet>
