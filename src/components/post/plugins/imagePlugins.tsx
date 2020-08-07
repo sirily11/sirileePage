@@ -2,22 +2,10 @@
 
 import React from "react";
 import { ContentBlock } from "draft-js";
-import {
-  Tooltip,
-  Typography,
-  CircularProgress,
-  withStyles,
-  Theme,
-  LinearProgress,
-  Collapse,
-  CardMedia,
-  Dialog,
-  DialogContent,
-  DialogActions,
-  Button,
-} from "@material-ui/core";
+import Lightbox from "react-image-lightbox";
 import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { Fade, CircularProgress } from "@material-ui/core";
 
 export function findImageEntities(
   contentBlock: ContentBlock,
@@ -37,6 +25,7 @@ export const ImageComponent = (props: any) => {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up("md"));
   const [show, setShow] = React.useState(false);
+  const [isLoading, setLoading] = React.useState(true);
   const { alignment, width, src } = props.contentState
     .getEntity(props.entityKey)
     .getData();
@@ -67,17 +56,45 @@ export const ImageComponent = (props: any) => {
     };
   }
 
+  if (isLoading) {
+    style = {
+      ...style,
+      display: "hidden",
+    };
+  }
+
   return (
     <React.Fragment>
-      <img src={src} style={style} onClick={() => setShow(true)} />
-      <Dialog open={show} fullScreen>
-        <DialogContent>
-          <img src={src} style={{ maxWidth: "100%" }}></img>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setShow(false)}>Close</Button>
-        </DialogActions>
-      </Dialog>
+      <Fade in={isLoading}>
+        <div
+          style={{
+            display: "flex",
+            position: "absolute",
+            left: "50%",
+            top: "50%",
+            marginRight: "-50%",
+            transform: "translate(-50%, -50%)",
+          }}
+        >
+          <CircularProgress />
+        </div>
+      </Fade>
+      <img
+        src={src}
+        style={style}
+        onClick={() => setShow(true)}
+        onLoad={() => {
+          setLoading(false);
+        }}
+      />
+      {show && (
+        <Lightbox
+          mainSrc={src}
+          onCloseRequest={() => {
+            setShow(false);
+          }}
+        />
+      )}
     </React.Fragment>
   );
 };

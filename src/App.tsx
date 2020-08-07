@@ -14,6 +14,8 @@ import PodcastList from "./components/podcast/PodcastList";
 import PodcastDetail from "./components/podcast/details/PodcastDetail";
 import PodcastProvider from "./components/states/PodcastState";
 import { CssBaseline } from "@material-ui/core";
+import 'react-image-lightbox/style.css';
+import 'react-h5-audio-player/lib/styles.css';
 
 const theme = createMuiTheme({
   palette: {

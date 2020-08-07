@@ -2,22 +2,11 @@
 
 import React from "react";
 import { ContentBlock } from "draft-js";
-import {
-  Tooltip,
-  Typography,
-  CircularProgress,
-  withStyles,
-  Theme,
-  LinearProgress,
-  Collapse,
-  CardMedia,
-  Dialog,
-  DialogContent,
-  DialogActions,
-  Button,
-} from "@material-ui/core";
+import AudioPlayer from "react-h5-audio-player";
 import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
+import Link from "@material-ui/core/Link";
+import Typography from "@material-ui/core/Typography";
 
 export function findAudioEntities(
   contentBlock: ContentBlock,
@@ -38,7 +27,10 @@ export const AudioComponent = (props: any) => {
 
   return (
     <React.Fragment>
-      <audio src={src} controls />
+      <AudioPlayer src={src} />
+      <Typography>
+        <b>Audio Src:</b> <Link>{decodeURIComponent(src)}</Link>
+      </Typography>
     </React.Fragment>
   );
 };
