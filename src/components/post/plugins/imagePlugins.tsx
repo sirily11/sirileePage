@@ -83,6 +83,7 @@ export const ImageComponent = (props: any) => {
         src={src}
         style={style}
         onClick={() => setShow(true)}
+        onError={() => setLoading(false)}
         onLoad={() => {
           setLoading(false);
         }}
