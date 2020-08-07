@@ -33,6 +33,7 @@ import { ContentElement } from "../models/tableOfContent";
 import { findLinkEntities, Link } from "./plugins/linkPlugins";
 import { findImageEntities, ImageComponent } from "./plugins/imagePlugins";
 import { findAudioEntities, AudioComponent } from "./plugins/audioPlugins";
+import { styleMap } from "./plugins/stylemap";
 // endplugins
 
 const linkPlugin = createLinkPlugin({});
@@ -198,6 +199,7 @@ function PostLayout(props: LayoutProps) {
               }
               return "";
             }}
+            customStyleMap={styleMap}
             onChange={(e) => {}}
             readOnly
             editorState={EditorState.createWithContent(

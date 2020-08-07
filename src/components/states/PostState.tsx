@@ -40,6 +40,7 @@ export default class PostProvider extends Component<Props, State> {
 
   async componentDidMount() {
     try {
+      this.setState({ posts: [] });
       let postResult = await this.fetchPost();
       let categoryResult = await this.fetchCategory();
 

@@ -13,6 +13,12 @@ import {
 } from "@material-ui/core";
 import axios from "axios";
 
+interface LinkProps {
+  title: string;
+  image?: string;
+  summary?: string;
+  link: string;
+}
 
 export function findLinkEntities(
   contentBlock: ContentBlock,
@@ -39,39 +45,30 @@ const HtmlTooltip = withStyles((theme: Theme) => ({
 }))(Tooltip);
 
 export const Link = (props: any) => {
-  const { url } = props.contentState.getEntity(props.entityKey).getData();
-  const [title, setTitle] = React.useState<string>();
+  const entityData: LinkProps = props.contentState
+    .getEntity(props.entityKey)
+    .getData().url;
+  console.log(entityData);
 
   return (
     <HtmlTooltip
       title={
         <React.Fragment>
-          <Collapse in={title !== undefined} mountOnEnter unmountOnExit>
-            <Typography variant="h6">{title}</Typography>
-          </Collapse>
-          <Collapse in={title === undefined} mountOnEnter unmountOnExit>
-            <LinearProgress />
-          </Collapse>
-          <span>{url}</span>
+          <Typography variant="h6">{entityData?.title ?? "No data"}</Typography>
+          {entityData?.image && (
+            <img
+              src={entityData?.image}
+              alt={""}
+              height={200}
+              crossOrigin={"anonymous"}
+            />
+          )}
+          <Typography>{entityData?.summary}</Typography>
+          <span>{entityData?.link}</span>
         </React.Fragment>
       }
-      onOpen={async () => {
-        if (!title) {
-          try {
-            let result = await axios.get(url);
-            let parser = new DOMParser();
-            let htmlDoc = parser.parseFromString(result.data, "text/html");
-            let title = htmlDoc.querySelector("title");
-            if (title) {
-              setTitle(title.innerText);
-            }
-          } catch (err) {
-            setTitle("Fetch Error");
-          }
-        }
-      }}
     >
-      <a href={url} target="_blank">
+      <a href={entityData.link} target="_blank">
         {props.children}
       </a>
     </HtmlTooltip>
