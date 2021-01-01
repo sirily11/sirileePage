@@ -10,6 +10,7 @@ import {
   Theme,
   LinearProgress,
   Collapse,
+  ClickAwayListener,
 } from "@material-ui/core";
 import axios from "axios";
 import { DetailSettings } from "../../models/post";
@@ -45,6 +46,7 @@ export const PostSettingsComponent = (props: any) => {
   const entityData: DetailSettings | undefined = entity
     ? entity.get("data")
     : undefined;
+  const [open, setOpen] = React.useState(false);
 
   React.useEffect(() => {
     if (settings) {
@@ -58,15 +60,25 @@ export const PostSettingsComponent = (props: any) => {
     }
   }, [settings]);
   return (
-    <HtmlTooltip
-      title={
-        <div>
-          <Typography variant="h6">{detail?.name}</Typography>
-          <Typography>{detail?.description}</Typography>
-        </div>
-      }
-    >
-      <span style={{ cursor: "pointer", color: "blue" }}>{props.children}</span>
-    </HtmlTooltip>
+    <ClickAwayListener onClickAway={() => setOpen(false)}>
+      <HtmlTooltip
+        open={open}
+        title={
+          <div>
+            <Typography variant="h6">{detail?.name}</Typography>
+            <Typography>{detail?.description}</Typography>
+          </div>
+        }
+      >
+        <span
+          onClick={() => setOpen(true)}
+          onMouseEnter={() => setOpen(true)}
+          onMouseLeave={() => setOpen(false)}
+          style={{ cursor: "pointer", color: "blue" }}
+        >
+          {props.children}
+        </span>
+      </HtmlTooltip>
+    </ClickAwayListener>
   );
 };
