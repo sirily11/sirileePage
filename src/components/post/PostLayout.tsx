@@ -32,6 +32,10 @@ import { ContentElement } from "../models/tableOfContent";
 import { findLinkEntities, Link } from "./plugins/linkPlugins";
 import { findImageEntities, ImageComponent } from "./plugins/imagePlugins";
 import { findAudioEntities, AudioComponent } from "./plugins/audioPlugins";
+import {
+  findPostSettingsEntities,
+  PostSettingsComponent,
+} from "./plugins/postSettingsPlugins";
 import { styleMap } from "./plugins/stylemap";
 // endplugins
 
@@ -106,20 +110,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const linkDecorator = new CompositeDecorator([
-  {
-    strategy: findLinkEntities,
-    component: Link,
-  },
-  {
-    strategy: findImageEntities,
-    component: ImageComponent,
-  },
-  {
-    strategy: findAudioEntities,
-    component: AudioComponent,
-  },
-]);
+
 
 function TitleWithCover(props: ContainerProps) {
   return (
@@ -163,6 +154,25 @@ function TitleWithCover(props: ContainerProps) {
 }
 
 function PostLayout(props: LayoutProps) {
+  const linkDecorator = new CompositeDecorator([
+    {
+      strategy: findLinkEntities,
+      component: Link,
+    },
+    {
+      strategy: findImageEntities,
+      component: ImageComponent,
+    },
+    {
+      strategy: findAudioEntities,
+      component: AudioComponent,
+    },
+    {
+      strategy: findPostSettingsEntities,
+      component: PostSettingsComponent,
+      props: props.post.settings
+    },
+  ]);
   const classes = useStyles();
   const [height, setHeight] = useState(window.innerHeight);
 

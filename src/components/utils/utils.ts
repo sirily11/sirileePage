@@ -1,7 +1,7 @@
 import { Color } from '../models/post';
-const base = "http://localhost/blog";
+// const base = "http://localhost/blog";
 const podcastBase = "https://api.sirileepage.com/podcast";
-// const base = "https://api.sirileepage.com/blog"
+const base = "https://api.sirileepage.com/blog";
 // const podcastBase = "http://localhost/podcast";
 
 export function getURL(path: string): string {
