@@ -26,7 +26,7 @@ export const ImageComponent = (props: any) => {
   const matches = useMediaQuery(theme.breakpoints.up("md"));
   const [show, setShow] = React.useState(false);
   const [isLoading, setLoading] = React.useState(true);
-  const { alignment, width, src } = props.contentState
+  const { alignment, width, src, description } = props.contentState
     .getEntity(props.entityKey)
     .getData();
 
@@ -79,15 +79,30 @@ export const ImageComponent = (props: any) => {
           <CircularProgress />
         </div>
       </Fade>
-      <img
-        src={src}
-        style={style}
-        onClick={() => setShow(true)}
-        onError={() => setLoading(false)}
-        onLoad={() => {
-          setLoading(false);
-        }}
-      />
+
+      <div style={style}>
+        <img
+          style={style}
+          src={src}
+          onClick={() => setShow(true)}
+          onError={() => setLoading(false)}
+          onLoad={() => {
+            setLoading(false);
+          }}
+        />
+        <div style={{ display: "flex" }}>
+          <figcaption
+            style={{
+              marginLeft: "auto",
+              marginRight: "auto",
+              fontSize: 16,
+              color: "grey",
+            }}
+          >
+            {description}
+          </figcaption>
+        </div>
+      </div>
       {show && (
         <Lightbox
           mainSrc={src}
