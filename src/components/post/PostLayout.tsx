@@ -30,6 +30,9 @@ import "draft-js-linkify-plugin/lib/plugin.css";
 
 import { ContentElement } from "../models/tableOfContent";
 import { findLinkEntities, Link } from "./plugins/linkPlugins";
+import { findImageEntities, ImageComponent } from "./plugins/imagePlugins";
+import { findAudioEntities, AudioComponent } from "./plugins/audioPlugins";
+import { styleMap } from "./plugins/stylemap";
 // endplugins
 
 const resizeablePlugin = createResizeablePlugin();
@@ -71,10 +74,10 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundSize: "cover",
       margin: 10,
       [theme.breakpoints.up("sm")]: {
-        padding: "30px",
+        padding: "0px",
       },
       height: 200,
-      padding: "10px 40px",
+      padding: 0,
       backgroundColor: "pink",
     },
     container: {
@@ -89,8 +92,8 @@ const useStyles = makeStyles((theme: Theme) =>
       overflowX: "hidden",
       [theme.breakpoints.down("sm")]: {
         overflow: "hidden",
-        maxHeight: "300vh",
-        padding: "20px",
+        maxHeight: "100%",
+        padding: "5px",
       },
       overflowY: "scroll",
       maxHeight: "100vh",
@@ -107,6 +110,14 @@ const linkDecorator = new CompositeDecorator([
   {
     strategy: findLinkEntities,
     component: Link,
+  },
+  {
+    strategy: findImageEntities,
+    component: ImageComponent,
+  },
+  {
+    strategy: findAudioEntities,
+    component: AudioComponent,
   },
 ]);
 
@@ -186,6 +197,7 @@ function PostLayout(props: LayoutProps) {
               }
               return "";
             }}
+            customStyleMap={styleMap}
             onChange={(e) => {}}
             readOnly
             editorState={EditorState.createWithContent(
@@ -195,10 +207,8 @@ function PostLayout(props: LayoutProps) {
             plugins={[
               inlineToolbarPlugin,
               sideToolbarPlugin,
-              imagePlugin,
               blockDndPlugin,
               focusPlugin,
-              alignmentPlugin,
               resizeablePlugin,
             ]}
           >
