@@ -20,7 +20,6 @@ import createFocusPlugin from "draft-js-focus-plugin";
 //@ts-ignore
 import createAlignmentPlugin from "draft-js-alignment-plugin";
 import createResizeablePlugin from "draft-js-resizeable-plugin";
-import createLinkPlugin from "draft-js-anchor-plugin";
 
 //@ts-ignore
 import "draft-js/dist/Draft.css";
@@ -33,7 +32,6 @@ import { ContentElement } from "../models/tableOfContent";
 import { findLinkEntities, Link } from "./plugins/linkPlugins";
 // endplugins
 
-const linkPlugin = createLinkPlugin({});
 const resizeablePlugin = createResizeablePlugin();
 const inlineToolbarPlugin = createInlineToolbarPlugin();
 const alignmentPlugin = createAlignmentPlugin();
@@ -202,7 +200,6 @@ function PostLayout(props: LayoutProps) {
               focusPlugin,
               alignmentPlugin,
               resizeablePlugin,
-              linkPlugin,
             ]}
           >
             <AlignmentTool />

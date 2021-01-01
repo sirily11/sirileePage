@@ -59,7 +59,10 @@ export default function PostDetail({ match }: RouteComponentProps<TParams>) {
     axios
       .get(url)
       .then((res) => {
-        setPost(res.data);
+        let post: Post = res.data;
+        post.settings = JSON.parse(post.settings as string);
+
+        setPost(post);
         document.title = res.data.title;
       })
       .catch((err) => alert(`Error: ${err}`));
