@@ -66,7 +66,7 @@ export default function PostDetail({ match }: RouteComponentProps<TParams>) {
         document.title = res.data.title;
       })
       .catch((err) => alert(`Error: ${err}`));
-  }, []);
+  }, [match]);
 
   return (
     <div style={{ height: "100%" }} id="container">

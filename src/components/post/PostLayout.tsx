@@ -37,6 +37,11 @@ import {
   PostSettingsComponent,
 } from "./plugins/postSettingsPlugins";
 import { styleMap } from "./plugins/stylemap";
+import { findVideoEntities, VideoComponent } from "./plugins/videoPlugins";
+import {
+  findInternalLinkEntities,
+  InternalLinkComponent,
+} from "./plugins/internalLink";
 // endplugins
 
 const resizeablePlugin = createResizeablePlugin();
@@ -110,8 +115,6 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-
-
 function TitleWithCover(props: ContainerProps) {
   return (
     <Segment
@@ -156,6 +159,14 @@ function TitleWithCover(props: ContainerProps) {
 function PostLayout(props: LayoutProps) {
   const linkDecorator = new CompositeDecorator([
     {
+      strategy: findInternalLinkEntities,
+      component: InternalLinkComponent,
+    },
+    {
+      strategy: findVideoEntities,
+      component: VideoComponent,
+    },
+    {
       strategy: findLinkEntities,
       component: Link,
     },
@@ -170,7 +181,7 @@ function PostLayout(props: LayoutProps) {
     {
       strategy: findPostSettingsEntities,
       component: PostSettingsComponent,
-      props: props.post.settings
+      props: props.post.settings,
     },
   ]);
   const classes = useStyles();
