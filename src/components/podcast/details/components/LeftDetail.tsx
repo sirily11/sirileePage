@@ -15,12 +15,12 @@ import {
   Tabs,
   Tab,
   Slide,
+  Divider,
 } from "@material-ui/core";
 //@ts-ignore
 import { Player, ControlBar, ClosedCaptionButton } from "video-react";
 import "video-react/dist/video-react.css";
 import { VideoList } from "../../../models/podcast";
-import { Divider } from "semantic-ui-react";
 
 import DescriptionIcon from "@material-ui/icons/Description";
 import AssetContainer from "./AssetContainer";

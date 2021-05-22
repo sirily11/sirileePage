@@ -3,7 +3,6 @@
 import React from "react";
 import HomePost from "./components/HomePost";
 import LeftSider from "./components/LeftSider";
-import HeaderBar from "./components/HeaderBar";
 import Fab from "@material-ui/core/Fab";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import { NavLink, RouteComponentProps } from "react-router-dom";

@@ -63,8 +63,6 @@
     "react-router-dom": "^5.0.1",
     "react-scripts": "^4.0.3",
     "react-sidebar": "^3.0.2",
-    "semantic-ui-css": "^2.4.1",
-    "semantic-ui-react": "^0.88",
     "tocbot": "^4.10.1",
     "typescript": "3.9.2",
     "video-react": "^0.14.1"

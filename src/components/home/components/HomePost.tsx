@@ -1,7 +1,6 @@
 /** @format */
 
 import React, { useContext, useState } from "react";
-import { Grid, Button } from "semantic-ui-react";
 import { Post } from "../../models/post";
 import {
   makeStyles,
@@ -12,7 +11,7 @@ import {
 } from "@material-ui/core";
 import { PostContext } from "../../states/PostState";
 import { drawerWidth } from "../../utils/utils";
-import { Row } from "antd";
+import { Row, Button } from "antd";
 import CardPanel from "./CardPanel";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -65,19 +64,17 @@ export default function HomePost() {
         })}
       </Row>
       <Fade in={nextURL !== undefined} mountOnEnter unmountOnExit timeout={100}>
-        <Grid.Row centered>
-          <Button
-            loading={isLoading}
-            primary
-            onClick={async () => {
-              setIsLoading(true);
-              await fetchNext();
-              setIsLoading(false);
-            }}
-          >
-            Load more
-          </Button>
-        </Grid.Row>
+        <Button
+          loading={isLoading}
+          type="primary"
+          onClick={async () => {
+            setIsLoading(true);
+            await fetchNext();
+            setIsLoading(false);
+          }}
+        >
+          Load more
+        </Button>
       </Fade>
     </div>
   );

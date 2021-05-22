@@ -49,7 +49,7 @@ export default function PostDetail() {
   }, [id]);
 
   return (
-    <div style={{ height: "calc(100vh - 69px)" }} id="container">
+    <div style={{ height: "calc(100vh - 64px)" }} id="container">
       <Helmet>
         <link property="apple-touch-icon" href={post?.image_url} />
         <meta property="og:title" content={post?.title} />
