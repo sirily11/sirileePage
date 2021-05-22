@@ -8,12 +8,13 @@ const useStyles = makeStyles((theme: Theme) => ({
   root: {
     flexGrow: 1,
     [theme.breakpoints.up("sm")]: {
-      marginLeft: drawerWidth + 20
+      marginLeft: drawerWidth + 20,
     },
     marginTop: 30,
+    marginLeft: 100,
     width: "100%",
-    textAlign: "left"
-  }
+    textAlign: "left",
+  },
 }));
 
 export default function HeaderBar() {

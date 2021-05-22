@@ -5,57 +5,37 @@ import { RouteComponentProps } from "react-router-dom";
 import { getURL } from "../utils/utils";
 import { Post } from "../models/post";
 import { Helmet } from "react-helmet";
-import Skeleton from "@material-ui/lab/Skeleton";
 import axios from "axios";
-import { Grid, Container } from "semantic-ui-react";
 import PostLayout from "./PostLayout";
 import { Fade } from "@material-ui/core";
+import { useParams } from "react-router";
+import { Row, Col, Skeleton } from "antd";
 import "./post.css";
 import "draft-js/dist/Draft.css";
 
-type TParams = { id?: string };
-
 function LoadingCard() {
   return (
-    <Grid style={{ marginTop: 20, width: "100%" }}>
-      <Grid.Row>
-        <Grid.Column width={6}>
+    <div style={{ marginTop: 20, width: "100%" }}>
+      <Row>
+        <Col span={12}>
           {Array.from({ length: 5 }, (v, k) => k + 1).map((i) => (
-            <Skeleton
-              variant="rect"
-              height={10}
-              width={"100%"}
-              style={{ margin: 10 }}
-            ></Skeleton>
+            <Skeleton></Skeleton>
           ))}
-        </Grid.Column>
-        <Grid.Column width={10}>
-          <Skeleton
-            variant="rect"
-            height={"80%"}
-            style={{ margin: 10 }}
-          ></Skeleton>
-        </Grid.Column>
-      </Grid.Row>
-      <Grid.Row>
-        {Array.from({ length: 20 }, (v, k) => k + 1).map((i) => (
-          <Skeleton
-            variant="rect"
-            height={10}
-            width={"100%"}
-            style={{ margin: 10 }}
-          ></Skeleton>
-        ))}
-      </Grid.Row>
-    </Grid>
+        </Col>
+        <Col span={12}>
+          <Skeleton></Skeleton>
+        </Col>
+      </Row>
+    </div>
   );
 }
 
-export default function PostDetail({ match }: RouteComponentProps<TParams>) {
+export default function PostDetail() {
   const [post, setPost] = useState<Post>();
+  const { id } = useParams<{ id: string }>();
 
   React.useEffect(() => {
-    const url = getURL(`post/${match.params.id}/`);
+    const url = getURL(`post/${id}/`);
     axios
       .get(url)
       .then((res) => {
@@ -66,10 +46,10 @@ export default function PostDetail({ match }: RouteComponentProps<TParams>) {
         document.title = res.data.title;
       })
       .catch((err) => alert(`Error: ${err}`));
-  }, [match]);
+  }, [id]);
 
   return (
-    <div style={{ height: "100%" }} id="container">
+    <div style={{ height: "calc(100vh - 69px)" }} id="container">
       <Helmet>
         <link property="apple-touch-icon" href={post?.image_url} />
         <meta property="og:title" content={post?.title} />

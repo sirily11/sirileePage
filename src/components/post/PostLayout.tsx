@@ -1,7 +1,6 @@
 /** @format */
 
 import React, { Component, useState, useRef } from "react";
-import { Container, Menu, Segment, Button, Card } from "semantic-ui-react";
 import PostTitle from "./PostTitle";
 import { NavLink } from "react-router-dom";
 import { Post, Color, Category } from "../models/post";
@@ -105,7 +104,7 @@ const useStyles = makeStyles((theme: Theme) =>
         padding: "5px",
       },
       overflowY: "scroll",
-      maxHeight: "100vh",
+      maxHeight: "calc(100vh - 69px)",
       padding: "5px",
     },
     cover: {
@@ -117,9 +116,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function TitleWithCover(props: ContainerProps) {
   return (
-    <Segment
-      inverted
-      textAlign="left"
+    <div
       style={{
         height: "100%",
         backgroundImage: `url(${props.imageSrc})`,
@@ -128,20 +125,7 @@ function TitleWithCover(props: ContainerProps) {
         backgroundPosition: "center",
         display: "block",
       }}
-      vertical
     >
-      <Menu
-        inverted={false}
-        secondary={true}
-        size="large"
-        style={{ margin: 10 }}
-      >
-        <Container>
-          <NavLink to={`/blog/${props.category.id}`}>
-            <Button icon="arrow left"></Button>
-          </NavLink>
-        </Container>
-      </Menu>
       <PostTitle
         title={props.title}
         author={props.author}
@@ -152,7 +136,7 @@ function TitleWithCover(props: ContainerProps) {
       <div style={{ marginLeft: 40 }} id="toc">
         {props.tocElement.render(props.cover_color)}
       </div>
-    </Segment>
+    </div>
   );
 }
 

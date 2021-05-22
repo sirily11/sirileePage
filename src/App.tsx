@@ -1,21 +1,24 @@
 /** @format */
 
 import React from "react";
-import { HashRouter as Router, Route, Link } from "react-router-dom";
+import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
 import Homepage from "./components/home/Homepage";
-import "./App.css";
 import PostProvider from "./components/states/PostState";
 import { createMuiTheme } from "@material-ui/core/styles";
 import { purple, green, grey, blue } from "@material-ui/core/colors";
 import { ThemeProvider } from "@material-ui/styles";
 import PostDetail from "./components/post/PostDetail";
-import WelcomePage from "./components/welcomepage/WelcomPage";
 import PodcastList from "./components/podcast/PodcastList";
 import PodcastDetail from "./components/podcast/details/PodcastDetail";
 import PodcastProvider from "./components/states/PodcastState";
 import { CssBaseline } from "@material-ui/core";
-import 'react-image-lightbox/style.css';
-import 'react-h5-audio-player/lib/styles.css';
+import { WelcomPage } from "./components/welcomepage";
+import "./App.css";
+import "react-image-lightbox/style.css";
+import "react-h5-audio-player/lib/styles.css";
+import "antd/dist/antd.css";
+import { routes } from "./settings/routes";
+import Navbar from "./components/Nav";
 
 const theme = createMuiTheme({
   palette: {
@@ -34,26 +37,30 @@ const podcastTheme = createMuiTheme({
 
 const App: React.FC = () => {
   return (
-    <div>
-      <ThemeProvider theme={theme}>
-        <PostProvider>
-          <Router>
+    <Router>
+      <Navbar />
+      <div>
+        <ThemeProvider theme={theme}>
+          <PostProvider>
             <CssBaseline />
-            <Route path="/" exact component={WelcomePage}></Route>
-            <Route path="/blog/:id?" exact component={Homepage}></Route>
-            <Route path="/post/:id" exact component={PostDetail}></Route>
-          </Router>
-        </PostProvider>
-      </ThemeProvider>
-      <ThemeProvider theme={podcastTheme}>
-        <Router>
+
+            {routes.map((r, i) => (
+              <Route path={r.path} exact key={`route-${i}`}>
+                {r.component}
+              </Route>
+            ))}
+            {/* <Route path="/blog/:id?" exact component={Homepage}></Route>
+            <Route path="/post/:id" exact component={PostDetail}></Route> */}
+          </PostProvider>
+        </ThemeProvider>
+        <ThemeProvider theme={podcastTheme}>
           <PodcastProvider>
-            <Route path="/playlist/" exact component={PodcastList}></Route>
-            <Route path="/podcast/:id" exact component={PodcastDetail}></Route>
+            {/* <Route path="/playlist/" exact component={PodcastList}></Route>
+            <Route path="/podcast/:id" exact component={PodcastDetail}></Route> */}
           </PodcastProvider>
-        </Router>
-      </ThemeProvider>
-    </div>
+        </ThemeProvider>
+      </div>
+    </Router>
   );
 };
 

@@ -1,9 +1,8 @@
 /** @format */
 
 import React from "react";
-import { Container } from "semantic-ui-react";
 import HomePost from "./components/HomePost";
-import TabsNav from "./components/Tabs";
+import LeftSider from "./components/LeftSider";
 import HeaderBar from "./components/HeaderBar";
 import Fab from "@material-ui/core/Fab";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
@@ -16,6 +15,12 @@ import {
   Backdrop,
   CircularProgress,
 } from "@material-ui/core";
+import { Layout, Spin } from "antd";
+
+import { useRouteMatch, useParams } from "react-router";
+import { config } from "../../settings/config";
+
+const { Header, Content, Footer } = Layout;
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -28,7 +33,10 @@ const useStyles = makeStyles((theme: Theme) =>
 
 type TParams = { id?: string };
 
-export default function Homepage({ match }: RouteComponentProps<TParams>) {
+export default function Homepage() {
+  const match = useRouteMatch();
+  const { id } = useParams<{ id: string }>();
+
   React.useEffect(() => {
     document.title = "Blog";
   }, []);
@@ -37,27 +45,42 @@ export default function Homepage({ match }: RouteComponentProps<TParams>) {
   const classes = useStyles();
 
   return (
-    <div>
-      <TabsNav
-        category_id={match.params.id ? parseInt(match.params.id) : undefined}
-      />
-      <Container fluid style={{ overflow: "hidden", height: "100%" }}>
-        {/* <LeftMenu></LeftMenu> */}
-        <HeaderBar></HeaderBar>
-        <HomePost></HomePost>
-      </Container>
-      <NavLink to="/">
-        <Fab
-          style={{ position: "fixed", bottom: "10px", right: "10px" }}
-          variant="extended"
-        >
-          <ArrowBackIosIcon />
-          Back
-        </Fab>
-      </NavLink>
-      <Backdrop className={classes.backdrop} open={isLoading}>
-        <CircularProgress color="inherit" />
-      </Backdrop>
-    </div>
+    <Layout
+      style={{
+        height: `calc(100vh - ${config.headerHeight}px)`,
+        overflow: "hidden",
+      }}
+    >
+      <Layout style={{ overflow: "hidden" }}>
+        <LeftSider />
+        <Layout style={{ padding: 0, overflow: "hidden" }}>
+          <Content
+            className="site-layout-background"
+            style={{
+              margin: 0,
+              minHeight: 280,
+              overflow: "hidden",
+              padding: 0,
+            }}
+          >
+            <Backdrop open={isLoading} style={{ color: "#fff", zIndex: 10000 }}>
+              <div
+                style={{
+                  width: "100%",
+                  height: "100vh",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  alignContent: "center",
+                }}
+              >
+                <Spin size="large" />
+              </div>
+            </Backdrop>
+            <HomePost />
+          </Content>
+        </Layout>
+      </Layout>
+    </Layout>
   );
 }

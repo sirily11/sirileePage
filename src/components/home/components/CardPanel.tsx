@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import { Post } from "../../models/post";
-import { Grid, Button } from "semantic-ui-react";
 import {
   Card,
   CardContent,
@@ -13,6 +12,7 @@ import {
 } from "@material-ui/core";
 import { isBrightColor } from "../../utils/utils";
 import { NavLink } from "react-router-dom";
+import { Button, Row, Col } from "antd";
 
 interface Props {
   reverse?: boolean;
@@ -69,13 +69,10 @@ export default function CardPanel(props: Props) {
   }, 400);
 
   const btn = (link: number) => (
-    <NavLink to={`/post/${link}`}>
-      <Button
-        primary
-        color="teal"
-        content="Read more"
-        className={classes.button}
-      ></Button>
+    <NavLink to={`/blog/post/${link}`}>
+      <Button type="primary" className={classes.button}>
+        Read
+      </Button>
     </NavLink>
   );
 
@@ -85,8 +82,8 @@ export default function CardPanel(props: Props) {
         ? false
         : isBrightColor(posts[0].cover_color[0]);
     return (
-      <Grid.Row>
-        <Grid.Column>
+      <Row>
+        <Col span={24}>
           <Card
             elevation={5}
             className={classes.horizentalCard}
@@ -98,30 +95,30 @@ export default function CardPanel(props: Props) {
               <div
                 className={isBright ? classes.titleDark : classes.titleBright}
               >
-                <Grid.Row>
+                <Row>
                   <span>{posts[0].post_category.category}</span>
-                </Grid.Row>
-                <Grid.Row>
+                </Row>
+                <Row>
                   <h2 style={{ color: isBright ? "black" : "white" }}>
                     {posts[0].title}
                   </h2>
-                </Grid.Row>
+                </Row>
               </div>
               {btn(posts[0].id)}
             </CardContent>
           </Card>
-        </Grid.Column>
-      </Grid.Row>
+        </Col>
+      </Row>
     );
   };
 
   const verticalCards = () => (
-    <Grid.Row columns={2}>
+    <Row>
       {posts.slice(1).map((p, i) => {
         const isBright =
           p.cover_color.length === 0 ? false : isBrightColor(p.cover_color[0]);
         return (
-          <Grid.Column tablet={8} computer={8} mobile={16} key={`post-${i}`}>
+          <Col span={12} key={`post-${i}`}>
             <Card
               elevation={5}
               className={classes.verticalCard}
@@ -133,31 +130,29 @@ export default function CardPanel(props: Props) {
                 <div
                   className={isBright ? classes.titleDark : classes.titleBright}
                 >
-                  <Grid.Row>
+                  <Row>
                     <span>{p.post_category.category}</span>
-                  </Grid.Row>
-                  <Grid.Row>
+                  </Row>
+                  <Row>
                     <h2 style={{ color: isBright ? "black" : "white" }}>
                       {p.title}
                     </h2>
-                  </Grid.Row>
+                  </Row>
                 </div>
                 {btn(p.id)}
               </CardContent>
             </Card>
-          </Grid.Column>
+          </Col>
         );
       })}
-    </Grid.Row>
+    </Row>
   );
   return (
     <Fade in={inani} mountOnEnter>
-      <Grid.Column computer={8} tablet={8} mobile={16}>
-        <Grid>
-          {reverse ? verticalCards() : horizentalCard()}
-          {reverse ? horizentalCard() : verticalCards()}
-        </Grid>
-      </Grid.Column>
+      <Col xs={24} sm={24} md={12}>
+        {reverse ? verticalCards() : horizentalCard()}
+        {reverse ? horizentalCard() : verticalCards()}
+      </Col>
     </Fade>
   );
 }

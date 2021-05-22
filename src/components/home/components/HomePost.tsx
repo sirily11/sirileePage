@@ -2,7 +2,6 @@
 
 import React, { useContext, useState } from "react";
 import { Grid, Button } from "semantic-ui-react";
-import "semantic-ui-css/semantic.min.css";
 import { Post } from "../../models/post";
 import {
   makeStyles,
@@ -13,6 +12,7 @@ import {
 } from "@material-ui/core";
 import { PostContext } from "../../states/PostState";
 import { drawerWidth } from "../../utils/utils";
+import { Row } from "antd";
 import CardPanel from "./CardPanel";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -40,9 +40,8 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function HomePost() {
   const classes = useStyles();
-  const { posts, fetchNext, getPost, seletedCategory, nextURL } = useContext(
-    PostContext
-  );
+  const { posts, fetchNext, getPost, seletedCategory, nextURL } =
+    useContext(PostContext);
   const [isLoading, setIsLoading] = useState(false);
 
   function split(posts: Post[]): Post[][] {
@@ -56,15 +55,15 @@ export default function HomePost() {
     return list;
   }
   return (
-    <Grid>
-      <Grid.Row className={classes.content}>
+    <div style={{ height: "100vh", overflow: "scroll" }}>
+      <Row className={classes.content}>
         {split(posts).map((pl, index) => {
           if (pl.length === 0) {
             return <div></div>;
           }
           return <CardPanel posts={pl} reverse={index % 2 !== 0}></CardPanel>;
         })}
-      </Grid.Row>
+      </Row>
       <Fade in={nextURL !== undefined} mountOnEnter unmountOnExit timeout={100}>
         <Grid.Row centered>
           <Button
@@ -80,6 +79,6 @@ export default function HomePost() {
           </Button>
         </Grid.Row>
       </Fade>
-    </Grid>
+    </div>
   );
 }
