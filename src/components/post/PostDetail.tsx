@@ -7,11 +7,25 @@ import { Post } from "../models/post";
 import { Helmet } from "react-helmet";
 import axios from "axios";
 import PostLayout from "./PostLayout";
-import { Fade } from "@material-ui/core";
+import { Fade, Theme } from "@material-ui/core";
 import { useParams } from "react-router";
 import { Row, Col, Skeleton } from "antd";
 import "./post.css";
 import "draft-js/dist/Draft.css";
+import { createStyles, makeStyles } from "@material-ui/core";
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    container: {
+      [theme.breakpoints.up("sm")]: {
+        height: "calc(100vh - 64px)",
+      },
+      [theme.breakpoints.down("sm")]: {
+        height: "100%",
+      },
+    },
+  })
+);
 
 function LoadingCard() {
   return (
@@ -33,6 +47,7 @@ function LoadingCard() {
 export default function PostDetail() {
   const [post, setPost] = useState<Post>();
   const { id } = useParams<{ id: string }>();
+  const classes = useStyles();
 
   React.useEffect(() => {
     const url = getURL(`post/${id}/`);
@@ -49,7 +64,7 @@ export default function PostDetail() {
   }, [id]);
 
   return (
-    <div id="container">
+    <div className={classes.container}>
       <Helmet>
         <link property="apple-touch-icon" href={post?.image_url} />
         <meta property="og:title" content={post?.title} />

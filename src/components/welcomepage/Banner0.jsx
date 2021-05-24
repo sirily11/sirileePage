@@ -4,10 +4,13 @@ import { DownOutlined } from '@ant-design/icons';
 import QueueAnim from 'rc-queue-anim';
 import TweenOne from 'rc-tween-one';
 import { isImg } from './utils';
+import { useHistory } from "react-router"
 
 export function Banner0(props){
   const { ...currentProps } = props;
   const { dataSource } = currentProps;
+  const history = useHistory()
+
   delete currentProps.dataSource;
   delete currentProps.isMobile;
   return (
@@ -29,7 +32,7 @@ export function Banner0(props){
         <div key="content" {...dataSource.content}>
           {dataSource.content.children}
         </div>
-        <Button ghost key="button" {...dataSource.button} onClick={()=>{}}>
+        <Button ghost key="button" {...dataSource.button} onClick={()=>{history.push("/blog")}}>
           {dataSource.button.children}
         </Button>
       </QueueAnim>
