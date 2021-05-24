@@ -27,6 +27,13 @@ export const routes: PageRoute[] = [
     showInMenu: true,
   },
   {
+    title: "Diary",
+    path: "/diary/:id?",
+    navPath: "/diary",
+    component: <Homepage />,
+    showInMenu: true,
+  },
+  {
     title: "Blog",
     path: "/blog/post/:id?",
     navPath: "/post",

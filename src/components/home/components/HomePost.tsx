@@ -12,7 +12,7 @@ import {
 import { PostContext } from "../../states/PostState";
 import { drawerWidth } from "../../utils/utils";
 import { Row, Button } from "antd";
-import CardPanel from "./CardPanel";
+import DisplayCard from "./CardPanel";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -60,7 +60,7 @@ export default function HomePost() {
           if (pl.length === 0) {
             return <div></div>;
           }
-          return <CardPanel posts={pl} reverse={index % 2 !== 0}></CardPanel>;
+          return <DisplayCard posts={pl} reverse={index % 2 !== 0}></DisplayCard>;
         })}
       </Row>
       <Fade in={nextURL !== undefined} mountOnEnter unmountOnExit timeout={100}>

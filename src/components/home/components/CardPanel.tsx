@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default function CardPanel(props: Props) {
+export default function DisplayCard(props: Props) {
   const { posts, reverse } = props;
   const classes = useStyles();
   const [inani, setIn] = useState(false);

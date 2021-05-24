@@ -24,12 +24,18 @@ const useStyles = makeStyles((theme: Theme) =>
         height: "100%",
       },
     },
+    loadingCard: { marginTop: 20, width: "100%" },
+    innerContainer: {
+      width: "100%",
+      height: "100%",
+    },
   })
 );
 
 function LoadingCard() {
+  const classes = useStyles();
   return (
-    <div style={{ marginTop: 20, width: "100%" }}>
+    <div className={classes.loadingCard}>
       <Row>
         <Col span={12}>
           {Array.from({ length: 5 }, (v, k) => k + 1).map((i) => (
@@ -71,7 +77,7 @@ export default function PostDetail() {
         <meta property="og:image" content={post?.image_url} />
       </Helmet>
       <Fade in={post !== undefined} mountOnEnter>
-        <div style={{ width: "100%", height: "100%" }}>
+        <div className={classes.innerContainer}>
           {post && <PostLayout post={post}></PostLayout>}
         </div>
       </Fade>

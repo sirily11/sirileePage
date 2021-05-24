@@ -3,23 +3,15 @@
 import React from "react";
 import HomePost from "./components/HomePost";
 import LeftSider from "./components/LeftSider";
-import Fab from "@material-ui/core/Fab";
-import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import { NavLink, RouteComponentProps } from "react-router-dom";
 import { PostContext } from "../states/PostState";
-import {
-  makeStyles,
-  Theme,
-  createStyles,
-  Backdrop,
-  CircularProgress,
-} from "@material-ui/core";
+import { makeStyles, Theme, createStyles, Backdrop } from "@material-ui/core";
 import { Layout, Spin } from "antd";
 
 import { useRouteMatch, useParams } from "react-router";
 import { config } from "../../settings/config";
 
-const { Header, Content, Footer } = Layout;
+const { Content } = Layout;
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -29,8 +21,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   })
 );
-
-type TParams = { id?: string };
 
 export default function Homepage() {
   const match = useRouteMatch();

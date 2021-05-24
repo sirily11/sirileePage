@@ -111,19 +111,26 @@ const useStyles = makeStyles((theme: Theme) =>
       height: "100vh",
       width: "100%",
     },
+    titleContainer: {
+      height: "100%",
+      backgroundRepeat: "no-repeat",
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+      display: "block",
+    },
+    tableOfContent: {
+      marginLeft: 40,
+    },
   })
 );
 
 function TitleWithCover(props: ContainerProps) {
+  const classes = useStyles();
   return (
     <div
+      className={classes.titleContainer}
       style={{
-        height: "100%",
         backgroundImage: `url(${props.imageSrc})`,
-        backgroundRepeat: "no-repeat",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        display: "block",
       }}
     >
       <PostTitle
@@ -133,7 +140,7 @@ function TitleWithCover(props: ContainerProps) {
         posted_time={props.posted_time}
         category={props.category}
       />
-      <div style={{ marginLeft: 40 }} id="toc">
+      <div className={classes.tableOfContent} id="toc">
         {props.tocElement.render(props.cover_color)}
       </div>
     </div>
