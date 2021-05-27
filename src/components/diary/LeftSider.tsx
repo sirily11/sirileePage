@@ -17,6 +17,7 @@ export default function LeftSider() {
       style={{ overflowY: "scroll", margin: 10 }}
       getCurrentAnchor={getCurrentAnchor}
     >
+      <Link href="#/diary/" title="All" />
       {months
         ?.map((m) => moment(m))
         .map((m, i) => (
