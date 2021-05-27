@@ -10,7 +10,8 @@ interface State {
   isLoading: boolean;
   posts: Post[];
   categories: Category[];
-  selectCategory(category?: Category): void;
+  fetchPosts(category?: any): Promise<void>;
+  fetchCategories(): Promise<void>;
   seletedCategory?: Category;
   nextURL?: string | null;
   fetchNext(): void;
@@ -34,92 +35,53 @@ export default class PostProvider extends Component<Props, State> {
       categories: [],
       fetchNext: this.fetchNext,
       getPost: this.getPost,
-      selectCategory: this.selectCategory,
+      fetchPosts: this.fetchPosts,
+      fetchCategories: this.fetchCategory,
     };
-  }
-
-  async componentDidMount() {
-    try {
-      this.setState({ posts: [] });
-      let postResult = await this.fetchPost();
-      let categoryResult = await this.fetchCategory();
-
-      this.setState({
-        posts: postResult.results,
-        nextURL: postResult.next === null ? undefined : postResult.next,
-        categories: categoryResult.results,
-      });
-    } catch (err) {
-      console.error(err);
-    }
   }
 
   /**
    * Fetch all post from internet
    */
-  private fetchPost = async (): Promise<FetchResult> => {
+  fetchPosts = async (category: any | undefined): Promise<void> => {
     try {
       this.setState({ isLoading: true });
-      let url = getURL("post/");
-      let response = await axios.get(url);
+      let url: string | undefined = undefined;
+      if (category) {
+        url = getURL("post/?category=" + category);
+      } else {
+        url = getURL("post/");
+      }
+
+      let response = await axios.get(url!);
       this.setState({ isLoading: false });
       let data: FetchResult = response.data;
-      return data;
+
+      this.setState({ posts: data.results, nextURL: data.next });
     } catch (err) {
       window.alert("Error: " + err);
-      return { count: 0, results: [], next: null, previous: null };
     }
   };
 
   /**
    * Fetch all category from internet
    */
-  private fetchCategory = async (): Promise<CategoryResult> => {
+  fetchCategory = async (): Promise<void> => {
     try {
       this.setState({ isLoading: true });
       let url = getURL("category/");
       let response = await axios.get(url);
       let categoryResult: CategoryResult = response.data;
-      this.setState({ isLoading: false });
-      return categoryResult;
+      this.setState({ isLoading: false, categories: categoryResult.results });
     } catch (err) {
       this.setState({ isLoading: false });
       window.alert("Error: " + err);
-
-      return { count: 0, results: [] };
     }
   };
 
   getPost(id: number): Post | undefined {
     return this.state.posts.find((post, index, obj) => post.id === id);
   }
-
-  /**
-   * Set current category to the selected one
-   * Update ui and fetch new post based on the category
-   * @param category Selected category, if select all, then this will be undefined
-   */
-  selectCategory = async (category?: Category) => {
-    this.setState({ isLoading: true });
-    try {
-      // select on of the tab but not all
-      if (category) {
-        let url = getURL("post/?category=" + category.id);
-        let response = await axios.get(url);
-        let data: FetchResult = response.data;
-        this.setState({ posts: data.results });
-      } else {
-        let postResult = await this.fetchPost();
-        this.setState({ posts: postResult.results });
-      }
-
-      this.setState({ seletedCategory: category });
-    } catch (err) {
-      window.alert("Error: " + err);
-    } finally {
-      this.setState({ isLoading: false });
-    }
-  };
 
   fetchNext = async () => {
     console.log("fetching next");

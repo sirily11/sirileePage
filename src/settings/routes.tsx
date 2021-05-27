@@ -1,4 +1,5 @@
 import React from "react";
+import DiaryPage from "../components/diary/DiaryPage";
 import Homepage from "../components/home/Homepage";
 import PostDetail from "../components/post/PostDetail";
 import { WelcomPage } from "../components/welcomepage";
@@ -28,9 +29,9 @@ export const routes: PageRoute[] = [
   },
   {
     title: "Diary",
-    path: "/diary/:id?",
+    path: "/diary/:time?",
     navPath: "/diary",
-    component: <Homepage />,
+    component: <DiaryPage />,
     showInMenu: true,
   },
   {

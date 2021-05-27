@@ -10,17 +10,17 @@ import {
   Fade,
 } from "@material-ui/core";
 import { PostContext } from "../../states/PostState";
-import { drawerWidth } from "../../utils/utils";
+import { drawerWidth, split } from "../../utils/utils";
 import { Row, Button } from "antd";
-import DisplayCard from "./CardPanel";
+import CardPanel from "./CardPanel";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     content: {
       [theme.breakpoints.up("sm")]: {
         marginLeft: drawerWidth + 30,
+        margin: 40,
       },
-      margin: 40,
     },
     divider: {
       [theme.breakpoints.down("sm")]: {
@@ -43,27 +43,22 @@ export default function HomePost() {
     useContext(PostContext);
   const [isLoading, setIsLoading] = useState(false);
 
-  function split(posts: Post[]): Post[][] {
-    const itemPerList = 3;
-    let list: Post[][] = [];
-    let i = 0;
-    while (i < posts.length) {
-      list.push(posts.slice(i, i + itemPerList));
-      i += itemPerList;
-    }
-    return list;
-  }
   return (
     <div style={{ height: "100vh", overflow: "scroll" }}>
       <Row className={classes.content}>
-        {split(posts).map((pl, index) => {
+        {split<Post>(posts).map((pl, index) => {
           if (pl.length === 0) {
             return <div></div>;
           }
-          return <DisplayCard posts={pl} reverse={index % 2 !== 0}></DisplayCard>;
+          return <CardPanel posts={pl} reverse={index % 2 !== 0} />;
         })}
       </Row>
-      <Fade in={nextURL !== undefined} mountOnEnter unmountOnExit timeout={100}>
+      <Fade
+        in={nextURL !== undefined && nextURL != null}
+        mountOnEnter
+        unmountOnExit
+        timeout={100}
+      >
         <Button
           loading={isLoading}
           type="primary"

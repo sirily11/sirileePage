@@ -12,7 +12,6 @@ export default function Navbar() {
   const [selected, setSelected] = React.useState<string>("/");
 
   React.useEffect(() => {
-    console.log(location.pathname);
     let selectedRoute = routes.find(
       (r) => location.pathname.includes(r.navPath) && r.navPath !== "/"
     );

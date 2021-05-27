@@ -34,6 +34,11 @@ export default function LeftSider() {
     React.useState<string>("0");
 
   React.useEffect(() => {
+    const categoryPromise = postContext.fetchCategories();
+    Promise.all([categoryPromise]);
+  }, []);
+
+  React.useEffect(() => {
     const { id } = params;
     let category = postContext.categories.find((c) => c.id.toString() === id);
     if (category) {
@@ -42,7 +47,7 @@ export default function LeftSider() {
     if (id === undefined) {
       setSelectedCategoryId("0");
     }
-    postContext.selectCategory(category);
+    postContext.fetchPosts(id);
   }, [params, postContext.categories]);
 
   return (

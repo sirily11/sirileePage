@@ -37,7 +37,7 @@ export default function Homepage() {
     <Layout
       style={{
         height: `calc(100vh - ${config.headerHeight}px)`,
-        overflow: "hidden",
+        overflowY: "hidden",
       }}
     >
       <Layout style={{ overflow: "hidden" }}>

@@ -19,6 +19,7 @@ import "react-h5-audio-player/lib/styles.css";
 import "antd/dist/antd.css";
 import { routes } from "./settings/routes";
 import Navbar from "./components/Nav";
+import VideoDiaryProvider from "./components/states/VideoDiaryState";
 
 const theme = createMuiTheme({
   palette: {
@@ -41,17 +42,19 @@ const App: React.FC = () => {
       <Navbar />
       <div>
         <ThemeProvider theme={theme}>
-          <PostProvider>
-            <CssBaseline />
+          <VideoDiaryProvider>
+            <PostProvider>
+              <CssBaseline />
 
-            {routes.map((r, i) => (
-              <Route path={r.path} exact key={`route-${i}`}>
-                {r.component}
-              </Route>
-            ))}
-            {/* <Route path="/blog/:id?" exact component={Homepage}></Route>
+              {routes.map((r, i) => (
+                <Route path={r.path} exact key={`route-${i}`}>
+                  {r.component}
+                </Route>
+              ))}
+              {/* <Route path="/blog/:id?" exact component={Homepage}></Route>
             <Route path="/post/:id" exact component={PostDetail}></Route> */}
-          </PostProvider>
+            </PostProvider>
+          </VideoDiaryProvider>
         </ThemeProvider>
         <ThemeProvider theme={podcastTheme}>
           <PodcastProvider>

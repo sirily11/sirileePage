@@ -18,6 +18,7 @@ import {
 import './less/antMotionStyle.less';
 import { Banner0 } from './Banner0';
 
+
 let isMobile;
 enquireScreen((b) => {
   isMobile = b;
@@ -74,6 +75,7 @@ export class WelcomPage extends React.Component {
         dataSource={Content30DataSource}
         isMobile={this.state.isMobile}
       />,
+
       <Footer0
         id="Footer0_0"
         key="Footer0_0"
